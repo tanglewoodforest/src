@@ -1,0 +1,4 @@
+./html.cc: style=\"font-style: italic;\">Tanglewood Forest</span></big></big></big></big><br>\
+./newbie.cc:      note->title = alloc_string( "Welcome to Tanglewood Forest!", MEM_NOTE );
+./player.cc:    send( link, "Thank you for visiting Tanglewood Forest.\n\r" );
+Binary file ./tanglewood matches
