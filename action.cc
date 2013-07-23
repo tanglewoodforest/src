@@ -320,7 +320,7 @@ void Room_Data :: write_actions( FILE *fp ) const
     //    write_extras( fp, act->program_data::Extra_Descr( ) );
     fprintf( fp, "!\n" );
     
-    fprintf( fp, "%d %d %d\n", act->trigger, act->value, act->flags );
+    fprintf( fp, "%d\n%d\n%d\n", act->trigger, act->value, act->flags );
   }
 
   if( temp_load ) {

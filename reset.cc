@@ -1385,7 +1385,7 @@ void load( FILE* fp, reset_data*& list )
 void write( FILE* fp, reset_data* reset )
 {
   for( ; reset; reset = reset->next ) {
-    fprintf( fp, "%d %d %d %d %d\n", 
+    fprintf( fp, "%d\n%d\n%d\n%d\n%d\n", 
 	     reset->vnum, reset->flags, reset->chances,
 	     reset->value, reset->liquid );
   }
