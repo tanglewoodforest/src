@@ -113,12 +113,12 @@
 #define MAT_TITANIUM               24
 
  
-#define OBJ_GOLD                    4
+#define OBJ_GOLD                    2
 #define OBJ_CORPSE_NPC             10
 #define OBJ_CORPSE_PC              11
-#define OBJ_COPPER                  2
-#define OBJ_SILVER                  3
-#define OBJ_PLATINUM                5
+#define OBJ_COPPER                 12
+#define OBJ_SILVER                 14
+#define OBJ_PLATINUM               16
 #define OBJ_BALL_OF_LIGHT          21
 #define OBJ_ASTRAL_GATE           270
 #define OBJ_LOCUST_SWARM          271
