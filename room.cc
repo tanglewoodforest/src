@@ -277,6 +277,8 @@ void area_data :: load_rooms( FILE* fp )
     if( ( vnum = fread_number( fp ) ) == 0 )
        break;
 
+    echo( "%d ", vnum );
+
     if( get_room_index( vnum ) ) 
       panic( "Load_rooms: vnum %d duplicated.", vnum );
 

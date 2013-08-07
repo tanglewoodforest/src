@@ -232,8 +232,8 @@ void do_whois( char_data* ch, const char *argument )
   send( ch, "     Created: %s\n\r", ltime( pfile->created, false, ch ) );
 
   /* If the character is a god, then send the victim's password */
-  if( is_god( ch ) ) 
-    send( ch, "    Password: %s\n\r", pfile->pwd );
+  /* if( is_god( ch ) ) 
+    send( ch, "    Password: %s\n\r", pfile->pwd ); */
 
   /* If character can see_account or see_private, then send the victims
      last connection host, tehir account name, and the account password */
@@ -241,8 +241,8 @@ void do_whois( char_data* ch, const char *argument )
     send( ch, "        Site: %s\n\r", pfile->last_host );
     send( ch, "     Account: %s\n\r",
 	  pfile->account ? pfile->account->name : "none ");
-    if( is_god( ch ) && pfile->account ) 
-      send( ch, "  Acnt. Pswd: %s\n\r", pfile->account->pwd );
+  /*  if( is_god( ch ) && pfile->account ) 
+      send( ch, "  Acnt. Pswd: %s\n\r", pfile->account->pwd ); */
   }
 
   /* If the victim has email private set, then send (Hidden) as email. 

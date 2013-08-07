@@ -1523,27 +1523,27 @@ void save_mobs( )
     write_extras( fp, species->attack->Extra_Descr( ) );
     fprintf( fp, "!\n" );
     
-    fprintf( fp, "%d %d %d %d %d %d %d %d\n",
+    fprintf( fp, "%d %d %d %d %d %d %d %d ",
 	     species->nation, species->group, shdata->race,
 	     species->adult, species->maturity,
 	     species->skeleton, species->zombie, species->corpse );
 
-    fprintf( fp, "%d %d %d %d %d %d %d %d\n",
+    fprintf( fp, "%d %d %d %d %d %d %d %d ",
 	     species->price, shdata->kills, shdata->deaths,
 	     species->wander, species->date, species->light,
 	     species->color, species->movement );
 
-    fprintf( fp, "%d %d\n",
+    fprintf( fp, "%d %d ",
 	     species->act_flags[0], species->act_flags[1] );
 
-    fprintf( fp, "%d %d %d\n",
+    fprintf( fp, "%d %d %d ",
 	     species->affected_by[0],
 	     species->affected_by[1],
 	     species->affected_by[2] );
 
-    fprintf( fp, "%d %d\n", shdata->alignment, shdata->level );
+    fprintf( fp, "%d %d ", shdata->alignment, shdata->level );
 
-    fprintf( fp, "%d %d %d %d %d\n",
+    fprintf( fp, "%d %d %d %d %d ",
 	     shdata->strength, shdata->intelligence,
 	     shdata->wisdom, shdata->dexterity,
 	     shdata->constitution );
@@ -1570,10 +1570,10 @@ void save_mobs( )
 	       species->chance[j], species->armor[j] );
       fwrite_string( fp, species->part_name[j] );
     }
-    fprintf( fp, "%d\n", species->wear_part );
+    fprintf( fp, "%d ", species->wear_part );
 
-    fprintf( fp, "%d %d\n", species->hitdice, species->movedice );
-    fprintf( fp, "%d %d %d %d %d\n", species->damage, species->rounds,
+    fprintf( fp, "%d %d ", species->hitdice, species->movedice );
+    fprintf( fp, "%d %d %d %d %d ", species->damage, species->rounds,
 	     species->special, species->damage_taken, species->exp );
     fprintf( fp, "%c %d %d %d\n",
 	     toupper( sex_name[species->sex][0] ),
@@ -1634,22 +1634,22 @@ void save_objects( )
     fwrite_string( fp,      obj_clss->comments );
     fwrite_string( fp,      obj_clss->last_mod );
 
-    fprintf( fp, "%d %d %d %d %d %d\n",
+    fprintf( fp, "%d %d %d %d %d %d ",
 	     obj_clss->item_type,         obj_clss->fakes,
 	     obj_clss->extra_flags[0],    obj_clss->extra_flags[1],
 	     obj_clss->wear_flags,        obj_clss->anti_flags );
     
-    fprintf( fp, "%d %d %d %d %d %d %d\n",
+    fprintf( fp, "%d %d %d %d %d %d %d ",
 	     obj_clss->restrictions,      obj_clss->size_flags,
 	     obj_clss->materials,
 	     obj_clss->affect_flags[0],   obj_clss->affect_flags[1],
 	     obj_clss->affect_flags[2],   obj_clss->layer_flags );
     
-    fprintf( fp, "%d %d %d %d\n",
+    fprintf( fp, "%d %d %d %d ",
 	     obj_clss->value[0], obj_clss->value[1],
 	     obj_clss->value[2], obj_clss->value[3] );
     
-    fprintf( fp, "%d %d %d %d %d %d %d %d %d\n",
+    fprintf( fp, "%d %d %d %d %d %d %d %d %d ",
 	     obj_clss->weight,
 	     obj_clss->cost, obj_clss->level, obj_clss->remort, obj_clss->limit,
 	     obj_clss->repair, obj_clss->durability, obj_clss->blocks,

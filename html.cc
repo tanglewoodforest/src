@@ -98,79 +98,18 @@ text html( const char *twf )
   return html;
 }
 
+void html_start( FILE *fp, const char *title, const char *header, const char *dir ){
+        fprintf( fp,
+        "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n\t<meta charset=\"utf-8\">\n\t<title>Tanglewood Forest MUD - %s</title>\n\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\t<meta name=\"description\" content=\"\">\n\t<meta name=\"author\" content=\"\">\n\t\n\t<!-- Le styles -->\n\t<link href=\"%scss/bootstrap.min.css\" rel=\"stylesheet\">\n\t<style type=\"text/css\">\n\t\tbody {\n\t\t\tpadding-top: 60px;\n\t\t\tpadding-bottom: 40px;\n\t\t}\n\t\t.sidebar-nav {\n\t\t\tpadding: 9px 0;\n\t\t}\n\t\t\n\t\t@media (max-width: 980px) {\n\t\t\t/* Enable use of floated navbar text */\n\t\t\t.navbar-text.pull-right {\n\t\t\t\tfloat: none;\n\t\t\t\tpadding-left: 5px;\n\t\t\t\tpadding-right: 5px;\n\t\t\t}\n\t\t}\n\t</style>\n\t<link href=\"%scss/bootstrap-responsive-min.css\" rel=\"stylesheet\">\n\t<script src=\"%sjs/vendor/modernizr-2.6.2-respond-1.1.0.min.js\"></script>\n\t\n\t<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->\n\t<!--[if lt IE 9]>\n\t\t<script src=\"%sjs/html5shiv.js\"></script>\n\t<![endif]-->\n</head>\n\n<body>\n\t<div class=\"navbar navbar-inverse navbar-fixed-top\">\n\t\t<div class=\"navbar-inner\">\n\t\t\t<div class=\"container\">\n\t\t\t\t<button type=\"button\" class=\"btn btn-navbar\" data-toggle=\"collapse\" data-target=\".nav-collapse\">\n\t\t\t\t\t<span class=\"icon-bar\"></span>\n\t\t\t\t\t<span class=\"icon-bar\"></span>\n\t\t\t\t\t<span class=\"icon-bar\"></span>\n\t\t\t\t</button>\n\t\t\t\t<a class=\"brand\" href=\"#\">Tanglewood Forest</a>\n\t\t\t\t<div class=\"nav-collapse collapse\">\n\t\t\t\t\t<ul class=\"nav\">\n\t\t\t\t\t\t<li><a href=\"%sindex.php\">Home</a></li>\n\t\t\t\t\t\t<li><a href=\"%splayers.html\">Player Directory</a></li>\n\t\t\t\t\t\t<li><a href=\"%swho.php\">Who's Online</a></li>\n\t\t\t\t\t\t<li><a href=\"%shelp/index.html\">Help</a></li>\n\t\t\t\t\t\t<li><a href=\"%sclans/index.html\">Clans</a></li>\n\t\t\t\t\t\t<li><a href=\"%scredits.html\">Credits</a></li>\n\t\t\t\t\t</ul>\n\t\t\t\t</div><!--/.nav-collapse -->\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t\n\t<div class=\"container\">\n\t\n\t\t<h2>%s</h2>\n",
+        title, dir, dir, dir, dir, dir, dir, dir, dir, dir, dir, header);
 
-static const char *const html_fg = "ivory";
-static const char *const html_bg = "#305a7a";
-static const char *const html_link = "#33ccff";
-static const char *const html_vlink = "#66cccc";
-static const char *const html_alink = "#33ccff";
-
-
-void html_start( FILE *fp,
-		 const char *title,
-		 const char *header,
-		 const char *dir )
-{
-  fprintf( fp, "<head>\n\
-  <meta http-equiv=\"content-type\" content=\"text/html; charset=ISO-8859-1\">\n\
-  <title>%s</title>\n\
-</head>\n", title );
-
-  fprintf( fp, "<body style=\"color: %s; background-color: %s;\"\n\
-  link=\"%s\" vlink=\"%s\" alink=\"%s\">\n",
-	   html_fg, html_bg,
-	   html_link, html_vlink, html_alink );
-
-
-  fprintf( fp, "<table style=\"width: 100%%; text-align: left;\" border=\"0\" cellspacing=\"0\"\
-  cellpadding=\"0\">\
-  <tbody>\
-    <tr>\
-      <td style=\"background-color: rgb(163, 191, 147);\"> <img\
- src=\"%sscary_forest.jpg\" title=\"\" alt=\"\"\
- style=\"width: 224px; height: 150px;\" width=\"224\" height=\"150\"><br>\
-      </td>\
-      <td\
- style=\"background-color: rgb(163, 191, 147); text-align: center; vertical-align: middle;\"><big\
- style=\"color: ivory;\"><big><big><big><span\
- style=\"font-style: italic;\">Tanglewood Forest</span></big></big></big></big><br>\
-      </td>\
-      <td style=\"background-color: rgb(163, 191, 147);\"><img\
- src=\"%spath.jpg\" title=\"\" alt=\"\" style=\"width: 200px; height: 150px;\"\
- align=\"right\"> </td>\
-    </tr>\
-  </tbody>\
-</table>\
-<br><br>", dir, dir );
-
-  fprintf( fp, "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\"\
- style=\"text-align: left; width: 100%%;\"><tbody>\n\
-    <tr><td><br></td></tr>\n\
-    <tr><td style=\"vertical-align: top; width: 150px;\">\n\
-      <a href=\"%sindex.html\">Home</a><br><br>\n\
-      <a href=\"telnet://twf.genesismuds.com:2000\">Connect</a><br><br>\n\
-      <a href=\"%splayers.html\">Player Directory</a><br><br>\n\
-      <a href=\"%swho.cgi\">Who's Online</a><br><br>\n\
-      <a href=\"%shelp/index.html\">Help Pages</a><br><br>\n\
-      <a href=\"%sclans/index.html\">Player Clans</a><br><br>\n\
-      <a href=\"%sresources.html\"> Resources</a><br><br>\n\
-      <a href=\"%scredits.html\">Credits</a><br>\n\
-      </td>\n",
-	   dir, dir, dir, dir, dir, dir, dir );
-
-  fprintf( fp, " <td style=\"vertical-align: top;\">\
-      <div align=\"left\"><big><big>%s</big></big><br>\
-      </div>\
-      <br>\n", header );
-
-  fprintf( fp, "<hr>\n" );
+fprintf( fp, "<hr>\n" );
 }
 
-
-void html_stop( FILE *fp )
-{
-  fprintf( fp, "<hr>\n" );
-  fprintf( fp, "</body>\n" );
-  fprintf( fp, "</html>\n" );
-  fclose( fp );
+void html_stop( FILE *fp, const char *dir ){
+        fprintf( fp,
+                "\n\n<hr>\n\n<footer><p>&copy;2013 Tanglewood Forest - The Fighting Ferret - Clint Milner</p></footer>\n\n</div><!--/.container-->\n\n\t<!-- Le javascript\n\t================================================== -->\n\t<!-- Placed at the end of the document so the pages load faster -->\n        <script src=\"//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js\"></script>\n\t<script src=\"%sjs/vendor/bootstrap.min.js\"></script>\t\n</body>\n</html>\n",
+                dir );
+        fclose( fp );
 }
+

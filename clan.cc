@@ -1014,7 +1014,7 @@ static bool save_html_clans( )
       fprintf( charter, "<p><h3><u>Charter</u></h3></p>\n" );
       fprintf( charter, "%s\n", html( clan->charter ).c_str( ) );
 
-      html_stop( charter );
+      html_stop( charter, "../" );
 
     } else {
       unlink( tmp );
@@ -1023,7 +1023,7 @@ static bool save_html_clans( )
 
   fprintf( index, "</table>\n" );
 
-  html_stop( index );
+  html_stop( index, "../" );
   
   if( chdir( orig_cwd ) < 0 )
     panic( "Save_HTML_Clans: can't chdir back to run directory" );

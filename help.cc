@@ -180,13 +180,13 @@ static bool save_html_help( )
 
 	  fprintf( data, "%s\n", html( help->text ).c_str( ) );
 
-	  html_stop( data );
+	  html_stop( data, "../../" );
  	}
       }
       
       fprintf( cat, "</table>\n" );
 
-      html_stop( cat );
+      html_stop( cat, "../../" );
       
       if( chdir( save_cwd ) < 0 ) {
 	fclose( index );

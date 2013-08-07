@@ -512,9 +512,9 @@ bool area_data:: Save( bool forced )
   fwrite_string( fp, name );
   fwrite_string( fp, creator );
   fwrite_string( fp, help );
-  fprintf( fp, "%d\n%d\n", level, reset_time );
-  fprintf( fp, "%d\n", status );
-  fprintf( fp, "%d\n", climate );
+  fprintf( fp, "%d %d ", level, reset_time );
+  fprintf( fp, "%d ", status );
+  fprintf( fp, "%d ", climate );
   fprintf( fp, "#ROOMS\n\n" );
   
   for( room_data *room = room_first; room; room = room->next ) {
@@ -524,15 +524,15 @@ bool area_data:: Save( bool forced )
     fwrite_string( fp, room->comments ); 
     //    fprintf( fp, "%d %d\n",
     //	     room->room_flags, room->temp_flags );
-    fprintf( fp, "%d\n%d\n", room->room_flags[0], room->room_flags[1] );
-    fprintf( fp, "%d\n%d\n0\n", room->sector_type, room->size );
+    fprintf( fp, "%d %d ", room->room_flags[0], room->room_flags[1] );
+    fprintf( fp, "%d %d 0\n", room->sector_type, room->size );
     
     for( int i = 0; i < room->exits; i++ ) {
       exit_data *exit = (exit_data *) room->exits[i];
       fprintf( fp, "D%d\n", (int)exit->direction );
       fwrite_string( fp, exit->name );
       fwrite_string( fp, exit->keywords );
-      fprintf( fp, "%d\n%d\n%d\n%d\n%d\n", exit->exit_info, exit->key, exit->to_room->vnum, (int)exit->light, (int)exit->size );
+      fprintf( fp, "%d %d %d %d %d\n", exit->exit_info, exit->key, exit->to_room->vnum, (int)exit->light, (int)exit->size );
       }
 
     write_extras( fp, room->extra_descr );

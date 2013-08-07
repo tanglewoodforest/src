@@ -132,6 +132,8 @@ void load_mobiles( void )
     if( ( vnum = fread_number( fp ) ) == 0 )
        break;
 
+    echo( "#%d ", vnum );
+
     if( vnum < 0 || vnum >= MAX_SPECIES ) 
       panic( "Load_mobiles: vnum out of range." );
 

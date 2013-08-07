@@ -56,7 +56,7 @@ separate: $(Q_FILES)
 
 clean:
 	rm -f OBJ/*.o
-	rm -f core core.* twf twf tanglewood daemon
+	rm -f core core.* tanglewood daemon
 	rm -f email.msg
 	rm -f Makefile.bak
 	rm -f *~

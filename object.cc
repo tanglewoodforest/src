@@ -883,6 +883,8 @@ void load_objects( void )
 
     if( ( vnum = fread_number( fp ) ) == 0 )
       break;
+
+    echo( "%d ", vnum );
    
     if( vnum < 0 || vnum >= MAX_OBJ_INDEX ) 
       panic( "Load_objects: vnum out of range." );

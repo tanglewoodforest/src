@@ -5,7 +5,6 @@
 #include "define.h"
 #include "struct.h"
 
-
 const int  coin_vnum  [] = { OBJ_COPPER, OBJ_SILVER, OBJ_GOLD, OBJ_PLATINUM }; 
 const int   coin_value [] = { 1, 10, 100, 1000 };
 const char*  coin_name [] = { "cp", "sp", "gp", "pp" };

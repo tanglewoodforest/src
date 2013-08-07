@@ -8,7 +8,7 @@
 #define NOTE_IMMORTAL         1
 #define NOTE_IDEAS            2
 #define NOTE_BUGS             3
-#define NOTE_JOBS             4
+#define NOTE_BUILDER          4
 #define NOTE_ANNOUNCEMENTS    5
 #define NOTE_INFORMATION      6 
 #define NOTE_STORIES          7

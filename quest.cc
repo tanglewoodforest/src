@@ -539,6 +539,8 @@ void load_quests( )
     if( ( vnum = fread_number( fp ) ) == -1 )
       break;
 
+    echo( "%d ", vnum );
+
     quest_data *quest = new quest_data( vnum );
 
     quest->serial = fread_number( fp );
@@ -570,12 +572,12 @@ void save_quests( )
  
   for( int i = 0; i < MAX_QUEST; ++i ) 
     if( const quest_data *quest = quest_list[i] ) {
-      fprintf( fp, "#%d %d\n", quest->vnum, quest->serial );
+      fprintf( fp, "#%d\n%d\n", quest->vnum, quest->serial );
       fprintf( fp, "%d\n", (int)quest->points );
       fprintf( fp, "%d\n", (int)quest->flags );
       fwrite_string( fp, quest->message );
       fwrite_string( fp, quest->comments );
-      fprintf( fp, "\n" );
+      fprintf( fp, "\n\n" );
     }
 
   fprintf( fp, "#-1\n" );

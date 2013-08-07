@@ -10,7 +10,7 @@
 
 const char* noteboard_name [ MAX_NOTEBOARD ] = { "general", "immortal",
 						 "ideas",
-						 "bugs", "jobs", "announcements", "information", "stories", "changes",
+						 "bugs", "builder", "announcements", "information", "stories", "changes",
 						 "wanted", "fixed", "code", "avatar", "clan" };
 
 
@@ -32,7 +32,7 @@ static int noteboard_level( int board )
 {
   switch( board ) {
   case NOTE_IMMORTAL:
-  case NOTE_JOBS:
+  case NOTE_BUILDER:
   case NOTE_CHANGES:
   case NOTE_CODE:
     return LEVEL_APPRENTICE;
@@ -180,7 +180,7 @@ static bool can_write( player_data *pc, int i, bool msg )
   }
 
   if( !is_apprentice( pc )
-      && ( i == NOTE_IMMORTAL || i == NOTE_JOBS
+      && ( i == NOTE_IMMORTAL || i == NOTE_BUILDER
 	   || i == NOTE_CHANGES || i == NOTE_CODE
 	   || i == NOTE_FIXED || i == NOTE_ANNOUNCEMENTS ) ) {
     if( msg ) 
