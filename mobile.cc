@@ -112,7 +112,11 @@ bool can_extract( species_data* species, char_data* ch )
 
 void load_mobiles( void )
 {
-  echo( "Loading Mobs ...\n\r" );
+  //echo( "Loading Mobs ...\n\r" );
+  printf( "+=--------------------------=+\r\n" );
+  printf( "| Loading Mobile Files!      |\r\n" );
+  printf( "| Watch for falling VNUMs... |\r\n" );
+  printf( "+=--------------------------=+\r\n" );
   vzero( species_list, MAX_SPECIES );
  
   FILE *fp = open_file( AREA_DIR, MOB_FILE, "r", true );

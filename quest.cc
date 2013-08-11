@@ -523,7 +523,11 @@ void load_quests( )
   char        letter;
   int           vnum;
 
-  echo( "Loading quests...\n\r" );
+  //echo( "Loading quests...\n\r" );
+  printf( "+=--------------------------=+\r\n" );
+  printf( "| Loading Quest Files!       |\r\n" );
+  printf( "| Watch for falling VNUMs... |\r\n" );
+  printf( "+=--------------------------=+\r\n" );
 
   FILE *fp = open_file( AREA_DIR, QUEST_FILE, "r", true );
 

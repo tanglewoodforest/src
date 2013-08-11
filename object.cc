@@ -867,7 +867,11 @@ void load_objects( void )
   char              letter;
   int                 vnum;
 
-  echo( "Loading Objects ...\n\r" );
+  //echo( "Loading Objects ...\n\r" );
+  printf( "+=--------------------------=+\r\n" );
+  printf( "| Loading Object Files!      |\r\n" );
+  printf( "| Watch for falling VNUMs... |\r\n" );
+  printf( "+=--------------------------=+\r\n" );
   vzero( obj_index_list, MAX_OBJ_INDEX );
 
   FILE *fp = open_file( AREA_DIR, OBJECT_FILE, "r", true );

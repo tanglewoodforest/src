@@ -99,7 +99,11 @@ static void delete_load_triggers( )
 
 static void load_areas( )
 {
-  echo( "Loading Areas ...\n\r" ); 
+  // echo( "Loading Areas ...\n\r" );
+  printf( "+=--------------------------=+\r\n" );
+  printf( "| Loading Area Files!        |\r\n" );
+  printf( "| Watch for falling VNUMs... |\r\n" );
+  printf( "+=--------------------------=+\r\n" );
 
   FILE *fp = open_file( AREA_DIR, AREA_LIST, "r", true );
 
@@ -116,7 +120,10 @@ static void load_areas( )
 
   fclose( fp );
 
-  printf( "Fixing exits...\n\r" );
+  printf( "+=-----------------------------=+\r\n" );
+  printf( "| EXIT DEFINITION ERRORS FOUND! |\r\n" );
+  printf( "| Fixing Exits...               |\r\n" );
+  printf( "+=-----------------------------=+\r\n" );
 
   for( area_data *area = area_list; area; area = area->next ) {
     for( room_data *room = area->room_first; room; room = room->next ) {
@@ -127,8 +134,7 @@ static void load_areas( )
       for( int i = room->exits-1; i >= 0; i-- ) {
         exit_data *exit = room->exits[i];
         if( !( exit->to_room = get_room_index( (int) exit->to_room ) ) ) {
-          roach( "Fix_Exits: Deleting exit from %d to non-existent %d.",
-		 room->vnum, (int) exit->to_room );
+          roach( "[Fix_Exits] In %s: \t Deleting exit from %d to non-existent %d.", area->name, room->vnum, (int) exit->to_room );
           room->exits -= exit;
           delete exit;
 	}
