@@ -68,7 +68,7 @@ bool condition_update( char_data* ch )
   //  if( ch->species )
   //    return false;
 
-  if( privileged( ch, LEVEL_DEMIGOD ) ) {
+  if( privileged( ch, LEVEL_BUILDER ) ) {
     // Gods don't have silly mortal problems like hunger, thirst, or drunkeness.
     ch->condition[ COND_FULL ] = 50;
     ch->condition[ COND_THIRST ] = 50;

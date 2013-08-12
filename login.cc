@@ -236,7 +236,7 @@ room_data* get_temple( char_data* ch )
     room = get_room_index( plyr_race_table[ ch->shdata->race ].start_room[ ch->Align_Good_Evil() ] );
 
   if( !room )
-    room = get_room_index( 93751 /*ROOM_CHIIRON_TEMPLE*/ );
+    room = get_room_index( ROOM_CHIIRON_TEMPLE );
 
   return room;
 }
