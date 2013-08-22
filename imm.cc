@@ -811,112 +811,91 @@ void do_peace( char_data* ch, const char *)
 
 
 static const char* bamfin( wizard_data* wizard )
-{
-  return wizard->bamfin != empty_string
-    ? wizard->bamfin : "materializes from the ether.";
+{	
+	char* b = wizard->bamfin != empty_string ? wizard->bamfin : "materializes from the ether.";
+	char value [ MAX_STRING_LENGTH ];	
+	convert_to_ansi( wizard, MAX_STRING_LENGTH, b, value );
+
+	return value;
 }
 
 
-static const char* bamfout( wizard_data* imm )
+static const char* bamfout( wizard_data* wizard )
 {
-  return imm->bamfout != empty_string
-    ? imm->bamfout : "disappears into the ether.";
-}
+	char* b = wizard->bamfout != empty_string ? wizard->bamfout : "disappears into the ether.";
+	char value [ MAX_STRING_LENGTH ];	
+	convert_to_ansi( wizard, MAX_STRING_LENGTH, b, value );
 
-
-static const char *bamfspace( const char *bamf )
-{
-  if( !bamf
-      || !*bamf )
-    return " ";
-
-  const char c = *bamf;
-
-  if( c == ','
-      || c == '.'
-      || c == '\''
-      || c == ':' ) {
-    return "";
-  }
-
-  return " ";
+	return value;
 }
 
 
 void do_bamfin( char_data* ch, const char *argument )
 {
-  wizard_data* imm  = wizard( ch );
+	wizard_data* imm  = wizard( ch );
 
-  if( !imm )
-    return;
+	if( !imm )
+		return;
 
-  free_string( imm->bamfin, MEM_WIZARD );
-  imm->bamfin = alloc_string( argument, MEM_WIZARD );
+	free_string( imm->bamfin, MEM_WIZARD );
+	imm->bamfin = alloc_string( argument, MEM_WIZARD );
 
-  send( ch, "Bamfin message set to:\n\r" );
+	send( ch, "Bamfin message set to:\n\r" );
 
-  const char *bamf = bamfin( imm );
+	const char *bamf = bamfin( imm );
 
-  fsend( ch, "%s%s%s",
-	 ch->descr->name,
-	 bamfspace( bamf ),
-	 bamf );
+	fsend( ch, "%s", bamf );
 }
-
 
 void do_bamfout( char_data *ch, const char *argument )
 {
-  wizard_data* imm  = wizard( ch );
+	wizard_data* imm  = wizard( ch );
 
-  if( !imm )
-    return;
+	if( !imm )
+		return;
 
-  free_string( imm->bamfout, MEM_WIZARD );
-  imm->bamfout = alloc_string( argument, MEM_WIZARD );
+	free_string( imm->bamfout, MEM_WIZARD );
+	imm->bamfout = alloc_string( argument, MEM_WIZARD );
 
-  send( ch, "Bamfout message set to:\n\r" );
+	send( ch, "Bamfout message set to:\n\r" );
 
-  const char *bamf = bamfout( imm );
+	const char *bamf = bamfout( imm );
 
-  fsend( ch, "%s%s%s", ch->descr->name,
-	 bamfspace( bamf ),
-	 bamf );
+	fsend( ch, "%s", bamf );
 }
-
 
 /*
  *   GOTO
  */
 
-
 static void exec_goto( char_data* victim, room_data* room, wizard_data* imm )
 {
-  victim->Select( 1 );
+	victim->Select( 1 );
 
-  if( imm ) {
-    const char *bamf = bamfout( imm );
-    fsend_color_seen( victim, COLOR_WIZARD, "%s%s%s",
-		      victim,
-		      bamfspace( bamf ),
-		      bamf );
-  } else {
-    fsend_color_seen( victim, COLOR_WIZARD, "%s suddenly disappears!", victim );
-  }
+	if( imm ) 
+	{
+		const char *bamf = bamfout( imm );
+		fsend_seen( victim, "%s", bamf );
+	} 
+	else 
+	{
+		fsend_color_seen( victim, COLOR_WIZARD, "%s suddenly disappears!", victim );
+	}
 
-  victim->From( );
-  victim->To( room );
+	victim->From( );
+	victim->To( room );
 
-  if( imm ) {
-    const char *bamf = bamfin( imm );
-    fsend_color_seen( victim, COLOR_WIZARD, "%s%s%s",
-		      victim,
-		      bamfspace( bamf ),
-		      bamf );
-  } else {
-    fsend_color_seen( victim, COLOR_WIZARD, "%s suddenly appears!", victim );
-  }
+	if( imm ) 
+	{
+		const char *bamf = bamfin( imm );
+		fsend_seen( victim, "%s", bamf );
+	} 
+	else 
+	{
+		fsend_color_seen( victim, COLOR_WIZARD, "%s suddenly appears!", victim );
+	}
 
-  show_room( victim, room, false, false );
+	show_room( victim, room, false, false );
 }
 
 

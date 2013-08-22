@@ -658,8 +658,8 @@ void do_help( char_data* ch, const char *argument )
     }
   }
   
-  page( ch, "   Topic: %s\n\r", help->name );
-  page( ch, "Category: %s\n\r", help_cat_table[help->category].name );  
+  page( ch, "   %sTopic:%s %s\n\r", color_code( ch, COLOR_CYAN ), normal( ch ), help->name );
+  page( ch, "%sCategory:%s %s\n\r", color_code( ch, COLOR_CYAN ), normal( ch ), help_cat_table[help->category].name );
   
   if( is_apprentice( ch ) ) {
     strcpy( tmp, "   Level: " );
@@ -670,9 +670,9 @@ void do_help( char_data* ch, const char *argument )
 
   if( help->when != -1 ) {
     if( help->by != empty_string ) {
-      page( ch, "Modified: %s by %s\n\r", ltime( help->when, false, ch ), help->by );
+      page( ch, "%sModified:%s %s by %s\n\r", color_code( ch, COLOR_CYAN ), normal( ch ), ltime( help->when, false, ch ), help->by );
     } else {
-      page( ch, "Modified: %s\n\r", ltime( help->when, false, ch ) );
+      page( ch, "%sModified:%s %s\n\r", color_code( ch, COLOR_CYAN ), normal( ch ), ltime( help->when, false, ch ) );
     }
   }
 
