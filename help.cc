@@ -657,7 +657,7 @@ void do_help( char_data* ch, const char *argument )
       return;
     }
   }
-  
+/* 
   page( ch, "   %sTopic:%s %s\n\r", color_code( ch, COLOR_CYAN ), normal( ch ), help->name );
   page( ch, "%sCategory:%s %s\n\r", color_code( ch, COLOR_CYAN ), normal( ch ), help_cat_table[help->category].name );
   
@@ -685,6 +685,48 @@ void do_help( char_data* ch, const char *argument )
     convert_to_ansi( ch, 3*MAX_STRING_LENGTH, help->immortal, tmp );
     page( ch, tmp );
   }
+*/
+        send( ch, "\r\n" );
+        send( ch, scroll_line[2] );
+        send( ch, "|    %sTopic:%s %-34s %sCategory:%s %-19s |\r\n",
+                color_code( ch, COLOR_CYAN ), normal( ch ), help->name,
+                color_code( ch, COLOR_CYAN ), normal( ch ), help_cat_table[help->category].name
+        );
+        if( help->when != -1 ) {
+                if( help->by != empty_string ) {
+                        send( ch, "| %sModified:%s %-26s %sLast Modified By:%s %-19s |\r\n",
+                                color_code( ch, COLOR_CYAN ),
+                                normal( ch ),
+                                ltime( help->when, false, ch ),
+                                color_code( ch, COLOR_CYAN ),
+                                normal( ch ),
+                                help->by
+                        );
+                } else {
+                        send( ch, "| %sModified:%s %-64s |\r\n",
+                                color_code( ch, COLOR_CYAN ),
+                                normal( ch ),
+                                ltime( help->when, false, ch )
+                        );
+                }
+        }
+  if( is_apprentice( ch ) ) {
+    strcpy( tmp, "   Level: " );
+    permission_flags.sprint( tmp+10, help->level );
+    strcat( tmp, "\n\r" );
+    page( ch, tmp );
+  }
+        send( ch, scroll_line[2] );
+  page( ch, "\n\r" );
+  convert_to_ansi( ch, 3*MAX_STRING_LENGTH, help->text, tmp );
+  page( ch, tmp );
+
+  if( help->immortal != empty_string && is_apprentice( ch ) ) {
+    page( ch, "\n\r" );
+    convert_to_ansi( ch, 3*MAX_STRING_LENGTH, help->immortal, tmp );
+    page( ch, tmp );
+  }
+
 }
 
 
