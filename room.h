@@ -302,6 +302,7 @@ public:
   void Set_Description( char_data *, const char * );
   void Edit_Description( char_data *, const char * );
   const char *Description( ) const;
+  const char *ParsedDescription( char_data * );
 
   void Set_Comments( char_data *, const char * );
   void Edit_Comments( char_data *, const char * );
@@ -349,5 +350,8 @@ bool   midair         ( const char_data*, const room_data* = 0 );
 bool   arid           ( const char_data*, const room_data* = 0 );
 bool   forest         ( const char_data*, const room_data* = 0 );
 
+// TODO - Dodger, move these to a more appropriate header location
+char *GetDescription( const char* ) ;
+char *FormatOutput ( const char *description ) ;
 
 #endif // twf_room_h
