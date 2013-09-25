@@ -1,5 +1,6 @@
 #ifndef twf_room_h
 #define twf_room_h
+#include <string>
 
 /*
  *   AREA HEADER
@@ -302,7 +303,7 @@ public:
   void Set_Description( char_data *, const char * );
   void Edit_Description( char_data *, const char * );
   const char *Description( ) const;
-  const char *ParsedDescription( char_data * );
+  const char *ParsedDescription( char_data * ) const;
 
   void Set_Comments( char_data *, const char * );
   void Edit_Comments( char_data *, const char * );
@@ -351,7 +352,7 @@ bool   arid           ( const char_data*, const room_data* = 0 );
 bool   forest         ( const char_data*, const room_data* = 0 );
 
 // TODO - Dodger, move these to a more appropriate header location
-char *GetDescription( const char* ) ;
-char *FormatOutput ( const char *description ) ;
+std::string GetDescription( const char* ) ;
+std::string FormatOutput ( char *description, int columns ) ;
 
 #endif // twf_room_h

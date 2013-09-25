@@ -5,7 +5,7 @@
 #include <limits.h>
 #include "define.h"
 #include "struct.h"
-//#include <string>
+#include <string>
 
 
 const char *rflag_name[ MAX_RFLAG ] = {
@@ -157,25 +157,30 @@ void Room_Data :: Look_At( char_data *ch )
   }
 }
 
-const char *Room_Data :: ParsedDescription ( char_data *ch )
+const char *Room_Data :: ParsedDescription ( char_data *ch ) const
 {
 	if( !area->loaded )
 	{
 		area->load_text( );
 	}
-
+	
 	area->seen = true;	
-	try
-	{
-		//bug("Parsed description");
-		//return FormatOutput( GetDescription( description ));
-		return GetDescription( description );
-	}
-	catch (const std:: exception & ex)
-	{
-		bug("Failed to parse description");
-		return GetDescription( description );
-	}
+	//try
+	//{		
+	//return GetDescription( Description()).c_str();
+	char tmp[3*MAX_STRING_LENGTH];
+
+    sprintf(tmp, "%s", 
+		FormatOutput( GetDescription( Description() ).c_str(), ch->pcdata->columns ).c_str());
+
+	return tmp;
+		//return GetDescription( description ).c_str( );
+	//}
+	//catch (const std:: exception & ex)
+	//{
+	//	bug("Failed to parse description");
+	//	return GetDescription( description );
+	//}
 
 }
 
