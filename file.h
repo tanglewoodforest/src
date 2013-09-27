@@ -12,6 +12,8 @@
 #define BACKUP_DIR         "../reimb/"
 #define CLAN_DIR           "../clans/"
 #define CLAN_NOTE_DIR      "../notes/clans/"
+#define DUMP_DIR           "../dumps/"
+#define DUMP_PREV_DIR      "../prev/dumps/"
 #define FILES_DIR          "../files/"
 #define FILES_PREV_DIR     "../prev/files/"
 #define IMMORTAL_LOG_DIR   "../logs/immortal/"

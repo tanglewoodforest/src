@@ -398,6 +398,7 @@ do_func do_drink;
 do_func do_drop;
 do_func do_dset;
 do_func do_dstat;
+do_func do_dump;
 do_func do_east;
 do_func do_eat;
 do_func do_echo;

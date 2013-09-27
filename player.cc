@@ -829,8 +829,7 @@ void do_title( char_data* ch, const char *argument )
   if( !get_flags( ch, argument, &flags, "lx", "Title" ) )
     return;
 
-  if( is_set( flags, 0 )
-      && is_architect( ch ) ) {
+  if( is_set( flags, 0 ) && is_architect( ch ) ) {
 
     char arg1 [MAX_INPUT_LENGTH];
     argument = one_argument( argument, arg1 );
@@ -838,8 +837,7 @@ void do_title( char_data* ch, const char *argument )
     char_data *victim = ch;
 
     if( *argument ) {
-      if( !( victim = one_player( ch, argument, "title", 
-				  (thing_array*) &player_list ) ) )
+      if( !( victim = one_player( ch, argument, "title", (thing_array*) &player_list ) ) )
 	return;
     }
 
@@ -859,13 +857,10 @@ void do_title( char_data* ch, const char *argument )
     imm->level_title = alloc_string( arg1, MEM_WIZARD );
 
     if( imm == ch )
-      fsend( ch, "Your level title has been set to \"%s\".\n\r", 
-	     arg1 );
+      fsend( ch, "Your level title has been set to \"%s\".\n\r", arg1 );
     else {
-      fsend( imm, "Your level title has been set to \"%s\".\n\r", 
-	     arg1 );
-      fsend( ch, "%s's level title has been set to \"%s\".\n\r", 
-	     imm, arg1 );
+      fsend( imm, "Your level title has been set to \"%s\".\n\r", arg1 );
+      fsend( ch, "%s's level title has been set to \"%s\".\n\r", imm, arg1 );
     }
 
     return;
@@ -889,8 +884,7 @@ void do_title( char_data* ch, const char *argument )
 	 || *argument == '\''
 	 || *argument == ':' );
 
-  snprintf( tmp, MAX_STRING_LENGTH, "%s%s",
-	    chomp ? "" : " ", argument );
+  snprintf( tmp, MAX_STRING_LENGTH, "%s%s", chomp ? "" : " ", argument );
   
   tmp[ MAX_INPUT_LENGTH ] = '\0';
 

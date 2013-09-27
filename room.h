@@ -68,6 +68,7 @@ public:
   void load_rooms( FILE *fp );
 
   bool Save( bool = false );
+  bool Dump( char = 'x' );
 
   void update_forage( );
 

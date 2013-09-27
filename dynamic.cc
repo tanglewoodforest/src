@@ -36,170 +36,193 @@ bool is_true ( room_data* room)
 
 bool is_exit_open_north ( room_data* room )
 {
-	if ( room == NULL )
-		return false;
+    if ( room == NULL )
+        return false;
 
-	for( int i = 0; i < room->exits; ++i ) 
-	{		
-		if ( room->exits[i]->direction == DIR_NORTH)
-		{			
-			if( !is_set( room->exits[i]->exit_info, EX_CLOSED ))
-			{				
-				return true;
-			}
-		}
-	}
+    for( int i = 0; i < room->exits; ++i ) 
+    {		
+        if ( room->exits[i]->direction == DIR_NORTH)
+        {			
+            if( !is_set( room->exits[i]->exit_info, EX_CLOSED ))
+            {				
+                return true;
+            }
+        }
+    }
 
-	return false;
+    return false;
 }
 
 bool is_exit_open_east ( room_data* room )
 {
-	if ( room == NULL )
-		return false;
+    if ( room == NULL )
+        return false;
 
-	for( int i = 0; i < room->exits; ++i ) 
-	{		
-		if ( room->exits[i]->direction == DIR_EAST)
-		{			
-			if( !is_set( room->exits[i]->exit_info, EX_CLOSED ))
-			{				
-				return true;
-			}
-		}
-	}
+    for( int i = 0; i < room->exits; ++i ) 
+    {		
+        if ( room->exits[i]->direction == DIR_EAST)
+        {			
+            if( !is_set( room->exits[i]->exit_info, EX_CLOSED ))
+            {				
+                return true;
+            }
+        }
+    }
 
-	return false;
+    return false;
 }
 
 bool is_exit_open_south ( room_data* room )
 {
-	if ( room == NULL )
-		return false;
+    if ( room == NULL )
+        return false;
 
-	for( int i = 0; i < room->exits; ++i ) 
-	{		
-		if ( room->exits[i]->direction == DIR_SOUTH)
-		{			
-			if( !is_set( room->exits[i]->exit_info, EX_CLOSED ))
-			{				
-				return true;
-			}
-		}
-	}
+    for( int i = 0; i < room->exits; ++i ) 
+    {		
+        if ( room->exits[i]->direction == DIR_SOUTH)
+        {			
+            if( !is_set( room->exits[i]->exit_info, EX_CLOSED ))
+            {				
+                return true;
+            }
+        }
+    }
 
-	return false;
+    return false;
 }
 
 bool is_exit_open_west ( room_data* room )
 {
-	if ( room == NULL )
-		return false;
+    if ( room == NULL )
+        return false;
 
-	for( int i = 0; i < room->exits; ++i ) 
-	{		
-		if ( room->exits[i]->direction == DIR_WEST)
-		{			
-			if( !is_set( room->exits[i]->exit_info, EX_CLOSED ))
-			{				
-				return true;
-			}
-		}
-	}
+    for( int i = 0; i < room->exits; ++i ) 
+    {		
+        if ( room->exits[i]->direction == DIR_WEST)
+        {			
+            if( !is_set( room->exits[i]->exit_info, EX_CLOSED ))
+            {				
+                return true;
+            }
+        }
+    }
 
-	return false;
+    return false;
 }
 
 bool is_exit_closed_north ( room_data* room )
 {
-	if ( room == NULL )
-		return false;
+    if ( room == NULL )
+        return false;
 
-	for( int i = 0; i < room->exits; ++i ) 
-	{		
-		if ( room->exits[i]->direction == DIR_NORTH)
-		{			
-			if( is_set( room->exits[i]->exit_info, EX_CLOSED ))
-			{				
-				return true;
-			}
-		}
-	}
+    for( int i = 0; i < room->exits; ++i ) 
+    {		
+        if ( room->exits[i]->direction == DIR_NORTH)
+        {			
+            if( is_set( room->exits[i]->exit_info, EX_CLOSED ))
+            {				
+                return true;
+            }
+        }
+    }
 
-	return false;
+    return false;
 }
 
 bool is_exit_closed_east ( room_data* room )
 {
-	if ( room == NULL )
-		return false;
+    if ( room == NULL )
+        return false;
 
-	for( int i = 0; i < room->exits; ++i ) 
-	{		
-		if ( room->exits[i]->direction == DIR_EAST)
-		{			
-			if( is_set( room->exits[i]->exit_info, EX_CLOSED ))
-			{				
-				return true;
-			}
-		}
-	}
+    for( int i = 0; i < room->exits; ++i ) 
+    {		
+        if ( room->exits[i]->direction == DIR_EAST)
+        {			
+            if( is_set( room->exits[i]->exit_info, EX_CLOSED ))
+            {				
+                return true;
+            }
+        }
+    }
 
-	return false;
+    return false;
 }
 
 bool is_exit_closed_south ( room_data* room )
 {
-	if ( room == NULL )
-		return false;
+    if ( room == NULL )
+        return false;
 
-	for( int i = 0; i < room->exits; ++i ) 
-	{		
-		if ( room->exits[i]->direction == DIR_SOUTH)
-		{			
-			if( is_set( room->exits[i]->exit_info, EX_CLOSED ))
-			{				
-				return true;
-			}
-		}
-	}
+    for( int i = 0; i < room->exits; ++i ) 
+    {		
+        if ( room->exits[i]->direction == DIR_SOUTH)
+        {			
+            if( is_set( room->exits[i]->exit_info, EX_CLOSED ))
+            {				
+                return true;
+            }
+        }
+    }
 
-	return false;
+    return false;
 }
 
 bool is_exit_closed_west ( room_data* room )
 {
-	if ( room == NULL )
-		return false;
+    if ( room == NULL )
+        return false;
 
-	for( int i = 0; i < room->exits; ++i ) 
-	{		
-		if ( room->exits[i]->direction == DIR_WEST)
-		{			
-			if( is_set( room->exits[i]->exit_info, EX_CLOSED ))
-			{				
-				return true;
-			}
-		}
-	}
+    for( int i = 0; i < room->exits; ++i ) 
+    {		
+        if ( room->exits[i]->direction == DIR_WEST)
+        {			
+            if( is_set( room->exits[i]->exit_info, EX_CLOSED ))
+            {				
+                return true;
+            }
+        }
+    }
 
-	return false;
+    return false;
 }
 
+bool is_winter ( room_data* room )
+{
+	return weather.month > 10 && weather.month < 3;
+}
+
+bool is_spring ( room_data* room )
+{
+	return weather.month > 2 && weather.month < 6;
+}
+
+bool is_summer ( room_data* room )
+{
+	return weather.month > 5 && weather.month < 9;
+}
+
+bool is_autumn ( room_data* room )
+{
+	return weather.month > 8 && weather.month < 11;
+}
 
 const dynamic_tag tag_index [] = 
 {
     { "day", is_day }, 
     { "night", is_night },
     { "newline", is_true },
-	{ "open=north", is_exit_open_north },
-	{ "open=east", is_exit_open_east },
-	{ "open=south", is_exit_open_south },
-	{ "open=west", is_exit_open_west },
-	{ "closed=north", is_exit_closed_north },
-	{ "closed=east", is_exit_closed_east },
-	{ "closed=south", is_exit_closed_south },
-	{ "closed=west", is_exit_closed_west }
+    { "open=north", is_exit_open_north },
+    { "open=east", is_exit_open_east },
+    { "open=south", is_exit_open_south },
+    { "open=west", is_exit_open_west },
+    { "closed=north", is_exit_closed_north },
+    { "closed=east", is_exit_closed_east },
+    { "closed=south", is_exit_closed_south },
+    { "closed=west", is_exit_closed_west },
+	{ "winter", is_winter },
+	{ "spring", is_spring },
+	{ "summer", is_summer },
+	{ "autumn", is_autumn }
 };
 
 /// Given the description and tag, parse!
@@ -216,13 +239,10 @@ std::string ParseTag(const char* tag, std::string description, bool remove = fal
     int is = str.find(start);
     int ie = str.find(end);
     
-	//bug ( "Debug PT: %d %d", is, ie );
-	
     if (is == -1 || ie == -1)
         return description;
 
-    int toStart = is + 2 + strlen( tag );
-    //int toEnd = max(1, ie - (2 + strlen( tag )));
+    int toStart = is + 2 + strlen( tag );    
 
     std::string data = str.substr(toStart, ie - toStart);
     std::string before = str.substr(0, is);
@@ -235,14 +255,11 @@ std::string ParseTag(const char* tag, std::string description, bool remove = fal
         newstring = before;
         newstring.append(after);
     }
-
-        //sprintf( description, "%s%s", before.c_str(), after.c_str() );
     else
     {
         newstring = before;
         newstring.append(data);
-        newstring.append(after);
-        //sprintf( description, "%s%s%s", before.c_str(), data.c_str(), after.c_str() );	
+        newstring.append(after);        
     }
     return newstring;
 }
@@ -251,29 +268,25 @@ std::string ParseTag(const char* tag, std::string description, bool remove = fal
 std::string GetDescription( const char *description, room_data* room ) 
 {	
     std::string new_description(description);
-    //sprintf( new_description, "%s", description );
     
-    //char *pString = new_description;
-
-    for (int i = 0; i < 11; i++ )
-    { 
-        //bug( "Parsing Dynamic Description %s:%d", tag_index[i].tag, tag_index[i].func( ) );
+    for (int i = 0; i < 15; i++ )
+    {         
         if ( tag_index[i].func( room ) )
             new_description = ParseTag( tag_index[i].tag, new_description );
         else
             new_description = ParseTag( tag_index[i].tag, new_description, true );			
     }
 
-    //std::string ret (new_description);
-	//bug ( "%s", new_description );
     return new_description;
 }
 
+// Add newline to provided string at column length
 std::string WordWrap(std::string a, int columns)
 {
-    const int WIDTH = columns; // may take this line out if I implement global width
+    const int WIDTH = columns;
     int index;
     std::string wrapped = "";
+
     while(a.length() >= columns)
     {
         index = a.substr(0,WIDTH).find_last_of(" ");
@@ -281,32 +294,35 @@ std::string WordWrap(std::string a, int columns)
         wrapped.append("\n");
         a = a.substr(index+1);
     }
+
     wrapped.append(a);
     wrapped.append("\n");
     return wrapped;
 }
 
+// Replace a match in a string with provided value
 std::string replaceinString(std::string str, std::string tofind, std::string toreplace)
 {
     size_t position = 0;
     for ( position = str.find(tofind); position != std::string::npos; position = str.find(tofind,position) )
     {
-            str.replace(position ,1, toreplace);
+            str.replace(position, 1, toreplace);
     }
     return(str);
 }
 
+/// Remove multiple spaces from a string
 std::string InnerTrim(std::string value)
 {
-	std::string str (value);
+    std::string str (value);
 
-	int loc = -1;
-	while((loc = str.find("  ")) != std::string::npos)  //Two spaces here
-	{
-		str.replace(loc, 2, " "); //Single space in quotes
-	}
+    int loc = -1;
+    while((loc = str.find("  ")) != std::string::npos)
+    {
+        str.replace(loc, 2, " ");
+    }
 
-	return str;
+    return str;
 }
 
 /// A way to provide formatted output without modifying the objects description
@@ -314,39 +330,14 @@ std::string FormatOutput ( char *description, int columns )
 {	
     std::string str ( description );
     std::string clean (str);
-		
-	clean = replaceinString(str, "\n", " ");
+        
+	// Remove all crlf
+    clean = replaceinString(str, "\n", " ");
     clean = replaceinString(clean, "\r", " ");
-	clean = InnerTrim(clean);
 
-	//replaceinString(clean, "  ", " ");    
-    
-    return WordWrap( clean, columns );
+	// Remove multiple spaces
+    clean = InnerTrim(clean);
 
-    //////const char *input = description;
-    //////char paragraph[ 3*MAX_STRING_LENGTH ];
-    //////char buf[ 3*MAX_STRING_LENGTH ];
-    //////char line [ MAX_STRING_LENGTH ];
-
-    ////////char *pString = paragraph;
-
-    //////*paragraph = '\0';
-    //////*buf = '\0';	
-    //////
-    //////while( true ) 
-    //////{
-    //////    input = one_line( input, line );
-    //////    if( !*line )
-    //////        break;
-    //////    strcat( buf, line );		
-    //////}
-    //////
-    //////bug ( buf );
-
-    //////format( line, buf, false );
-    //////strcat( paragraph, line );
-    //////    
-    //////std::string ret (paragraph);
-    //////return ret;
+    return WordWrap( clean, columns );   
 }
 

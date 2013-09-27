@@ -396,6 +396,7 @@ static const command_ident command_list [] =
   { "weather",     do_weather    },
   { "wizlock",     do_wizlock    },
   { "write",       do_write      },
+  { "dump",        do_dump       },
   { "",            0             }
 };
 

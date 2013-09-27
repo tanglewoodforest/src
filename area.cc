@@ -560,6 +560,184 @@ bool area_data:: Save( bool forced )
 }
 
 
+bool area_data:: Dump( char format )
+{
+
+    bool temp_load = !loaded;
+
+    if( temp_load ) {
+        load_text( );
+    }
+
+    bool act_load = !act_loaded;
+
+    if( act_load ) {
+        load_actions( );
+    }
+
+    char *tmp = static_string( );
+
+    FILE *fp;
+
+    switch( format ){
+        case 's':
+            // SQL Dump Format
+            sprintf( tmp, "%s.sql", file );
+            // Swap out the last dump for the new one
+            rename_file( DUMP_DIR, tmp, DUMP_PREV_DIR, tmp );
+            // Ensure writing of the file
+            if( !( fp = open_file( DUMP_DIR, tmp, "w" ) ) ) {
+                if( temp_load ) {
+                    clear_text( );
+                }
+                if( act_load ) {
+                    clear_actions( );
+                }
+                return false;
+            }
+            // Write area to file
+            fprintf( fp, "#AREA\n" );
+            fwrite_string( fp, name );
+            fwrite_string( fp, creator );
+            fwrite_string( fp, help );
+            fprintf( fp, "%d %d ", level, reset_time );
+            fprintf( fp, "%d ", status );
+            fprintf( fp, "%d ", climate );
+            fprintf( fp, "#ROOMS\n\n" );
+
+            for( room_data *room = room_first; room; room = room->next ) {
+                fprintf( fp, "#%d\n", room->vnum );
+                fwrite_string( fp, room->name );
+                fwrite_string( fp, room->description );
+                fwrite_string( fp, room->comments );
+                fprintf( fp, "%d %d ", room->room_flags[0], room->room_flags[1] );
+                fprintf( fp, "%d %d 0\n", room->sector_type, room->size );
+
+                for( int i = 0; i < room->exits; i++ ) {
+                    exit_data *exit = (exit_data *) room->exits[i];
+                    fprintf( fp, "D%d\n", (int)exit->direction );
+                    fwrite_string( fp, exit->name );
+                    fwrite_string( fp, exit->keywords );
+                    fprintf( fp, "%d %d %d %d %d\n", exit->exit_info, exit->key, exit->to_room->vnum, (int)exit->light, (int)exit->size );
+                }
+
+                write_extras( fp, room->extra_descr );
+                room->write_actions( fp );
+
+                write( fp, room->reset );
+
+                fprintf( fp, "S\n\n" );
+            }
+            break;
+        case 'x':
+            // XML Dump Format
+            sprintf( tmp, "%s.xml", file );
+            // Swap out the last dump for the new one
+            rename_file( DUMP_DIR, tmp, DUMP_PREV_DIR, tmp );
+            // Ensure writing of the file
+            if( !( fp = open_file( DUMP_DIR, tmp, "w" ) ) ) {
+                if( temp_load ) {
+                    clear_text( );
+                }
+                if( act_load ) {
+                    clear_actions( );
+                }
+                return false;
+            }
+            // Write area to file
+            fprintf( fp, "#AREA\n" );
+            fwrite_string( fp, name );
+            fwrite_string( fp, creator );
+            fwrite_string( fp, help );
+            fprintf( fp, "%d %d ", level, reset_time );
+            fprintf( fp, "%d ", status );
+            fprintf( fp, "%d ", climate );
+            fprintf( fp, "#ROOMS\n\n" );
+
+            for( room_data *room = room_first; room; room = room->next ) {
+                fprintf( fp, "#%d\n", room->vnum );
+                fwrite_string( fp, room->name );
+                fwrite_string( fp, room->description );
+                fwrite_string( fp, room->comments );
+                fprintf( fp, "%d %d ", room->room_flags[0], room->room_flags[1] );
+                fprintf( fp, "%d %d 0\n", room->sector_type, room->size );
+
+                for( int i = 0; i < room->exits; i++ ) {
+                    exit_data *exit = (exit_data *) room->exits[i];
+                    fprintf( fp, "D%d\n", (int)exit->direction );
+                    fwrite_string( fp, exit->name );
+                    fwrite_string( fp, exit->keywords );
+                    fprintf( fp, "%d %d %d %d %d\n", exit->exit_info, exit->key, exit->to_room->vnum, (int)exit->light, (int)exit->size );
+                }
+
+                write_extras( fp, room->extra_descr );
+                room->write_actions( fp );
+
+                write( fp, room->reset );
+
+                fprintf( fp, "S\n\n" );
+            }
+            break;
+        case 'h':
+            // HTML Dump Format
+            sprintf( tmp, "%s.html", file );
+            // Swap out the last dump for the new one
+            rename_file( DUMP_DIR, tmp, DUMP_PREV_DIR, tmp );
+            // Ensure writing of the file
+            if( !( fp = open_file( DUMP_DIR, tmp, "w" ) ) ) {
+                if( temp_load ) {
+                    clear_text( );
+                }
+                if( act_load ) {
+                    clear_actions( );
+                }
+                return false;
+            }
+            // Write area to file
+            fprintf( fp, "<html><head><title>%s</title></head>", name );
+            fprintf( fp, "<body><h1>%s</h1>", name );
+            fprintf( fp, "<ul><li><strong>Creator:</strong> %s</li>", creator );
+            fprintf( fp, "<li><strong>Help:</strong> %s</li>", help );
+            fprintf( fp, "<li><strong>Level:</strong> %d</li>", level );
+            fprintf( fp, "<li><strong>Reset Time:</strong> %d</li>", reset_time );
+            fprintf( fp, "<li><strong>Status:</strong> %d</li>", status );
+            fprintf( fp, "<li><strong>Climate:</strong> %d</li></ul>", climate );
+            fprintf( fp, "<h2>ROOMS</h2>" );
+
+            for( room_data *room = room_first; room; room = room->next ) {
+                fprintf( fp, "<h3>%d: %s</h3>", room->vnum, room->name );
+                fprintf( fp, "<p><pre>%s</pre><br>----<br><pre>%s</pre></p>", room->description, room->comments );
+                fprintf( fp, "<p><pre>" );
+                write_extras( fp, room->extra_descr );
+                fprintf( fp, "</pre></p><p><pre>" );
+                room->write_actions( fp );
+                fprintf( fp, "</pre></p><p><pre>" );
+                write( fp, room->reset );
+                fprintf( fp, "</pre></p>" );
+                fprintf( fp, "<hr>" );
+            }
+
+            fprintf( fp, "</body></html>" );
+            break;
+        default:
+            return false;
+    }
+
+    // Close Dump File
+    fclose( fp );
+
+    if( temp_load ) {
+        clear_text( );
+    }
+
+    if( act_load ) {
+        clear_actions( );
+    }
+
+    return true;
+}
+
+
 /*
  *   AREA LIST COMMAND
  */
