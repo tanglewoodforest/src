@@ -171,7 +171,7 @@ const char *Room_Data :: ParsedDescription ( char_data *ch ) const
 	char tmp[3*MAX_STRING_LENGTH];
 
     sprintf(tmp, "%s", 
-		FormatOutput( GetDescription( Description() ).c_str(), ch->pcdata->columns ).c_str());
+		FormatOutput( GetDescription( Description(), this ).c_str(), ch->pcdata->columns ).c_str());
 
 	return tmp;
 		//return GetDescription( description ).c_str( );

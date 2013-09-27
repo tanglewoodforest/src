@@ -9,20 +9,14 @@
 #include "struct.h"
 
 
-const char *imm_title [] = { "Avatar", "Apprentice", "Builder",
-  "Architect", "Immortal", "Spirit", "Angel", "Demigod", "God" };
+const char *imm_title [] = { "Avatar", "Apprentice", "Builder", "Designer", "Architect", "Spirit", "Angel", "Demigod", "God" };
 
 const char *permission_name [ MAX_PERMISSION ] = {
-  "all_mobs", "all_objects", "all_rooms", "approve",
-  "basic", "build_chan", "commands", "echo", "god_chan",
-  "goto", "help_files", "imm_chan",
-  "lists", "load_objects", "misc_tables", "mobs", "noteboard",
-  "objects", "players", "quests",
-  "reimb_exp", "reimb_equip", "rooms", "shutdown", "accounts",
-  "snoop", "spells",
-  "socials", "transfer", "unfinished", "write_all", "write_areas",
-  "avatar_chan", "clans", "rtables", "disabled", "force_players",
-  "admin_chan" };
+  "all_mobs", "all_objects", "all_rooms", "approve", "basic", "build_chan", "commands", "echo", "god_chan",
+  "goto", "help_files", "imm_chan", "lists", "load_objects", "misc_tables", "mobs", "noteboard",
+  "objects", "players", "quests", "reimb_exp", "reimb_equip", "rooms", "shutdown", "accounts",
+  "snoop", "spells", "socials", "transfer", "unfinished", "write_all", "write_areas",
+  "avatar_chan", "clans", "rtables", "disabled", "force_players", "admin_chan" };
 
 
 /*
@@ -1581,8 +1575,8 @@ void do_restore( char_data* ch, const char *argument )
   }
   
   if( !strcasecmp( argument, "room" ) ) {
-    if( !is_immortal( ch ) ) {
-      send( ch, "You must be level %d to restore room.\n\r", LEVEL_IMMORTAL );
+    if( !is_architect( ch ) ) {
+      send( ch, "You must be level %d to restore room.\n\r", LEVEL_ARCHITECT );
       return;
     }
     int count = 0;
@@ -1613,7 +1607,7 @@ void do_restore( char_data* ch, const char *argument )
 				 ch->array, (thing_array*) &player_list ) ) )
     return;
   
-  if( !is_immortal( ch ) && ch != victim ) {
+  if( !is_architect( ch ) && ch != victim ) {
     send( ch, "You can only restore yourself.\n\r" );
     return;
   }

@@ -625,7 +625,7 @@ void do_write( char_data* ch, const char *argument )
       send( ch, "Table files written.\n\r" );
       snprintf( buf, MAX_INPUT_LENGTH, "Table files written by %s.", ch->real_name() );
       snprintf( buf1, MAX_INPUT_LENGTH, "Table files written." );
-      info( LEVEL_IMMORTAL, buf1, invis_level( ch ), buf, IFLAG_WRITES, 1, ch );
+      info( LEVEL_ARCHITECT, buf1, invis_level( ch ), buf, IFLAG_WRITES, 1, ch );
       continue;
     }
 
@@ -676,7 +676,7 @@ void do_write( char_data* ch, const char *argument )
       send( ch, "World file written.\n\r" );
       snprintf( buf, MAX_INPUT_LENGTH, "World file written by %s.", ch->descr->name );
       snprintf( buf1, MAX_INPUT_LENGTH, "World file written." );
-      info( LEVEL_IMMORTAL, buf1, invis_level( ch ), buf, IFLAG_WRITES, 1, ch );
+      info( LEVEL_ARCHITECT, buf1, invis_level( ch ), buf, IFLAG_WRITES, 1, ch );
       continue;
     }
 
@@ -688,7 +688,7 @@ void do_write( char_data* ch, const char *argument )
       send( ch, "Clan files written.\n\r" );
       snprintf( buf, MAX_INPUT_LENGTH, "Clan files written by %s.", ch->real_name() );
       snprintf( buf1, MAX_INPUT_LENGTH, "Clan files written." );
-      info( LEVEL_IMMORTAL, buf1, invis_level( ch ), buf, IFLAG_WRITES, 1, ch );
+      info( LEVEL_ARCHITECT, buf1, invis_level( ch ), buf, IFLAG_WRITES, 1, ch );
       continue;
     }
 
@@ -700,7 +700,7 @@ void do_write( char_data* ch, const char *argument )
       send( ch, "Table file written.\n\r" );
       snprintf( buf, MAX_INPUT_LENGTH, "List file written by %s.", ch->real_name() );
       snprintf( buf1, MAX_INPUT_LENGTH, "List file written." );
-      info( LEVEL_IMMORTAL, buf1, invis_level( ch ), buf, IFLAG_WRITES, 1, ch );
+      info( LEVEL_ARCHITECT, buf1, invis_level( ch ), buf, IFLAG_WRITES, 1, ch );
       continue;
     }
 
@@ -712,7 +712,7 @@ void do_write( char_data* ch, const char *argument )
       send( ch, "Dictionary files written.\n\r" );
       snprintf( buf, MAX_INPUT_LENGTH, "Dictionary files written by %s.", ch->real_name() );
       snprintf( buf1, MAX_INPUT_LENGTH, "Dictionary files written." );
-      info( LEVEL_IMMORTAL, buf1, invis_level( ch ), buf, IFLAG_WRITES, 1, ch );
+      info( LEVEL_ARCHITECT, buf1, invis_level( ch ), buf, IFLAG_WRITES, 1, ch );
       continue;
     }
   }

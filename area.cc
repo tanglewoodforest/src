@@ -706,7 +706,7 @@ void do_areas( char_data* ch, const char *argument )
     return;
   }
 
-  if( is_architect( ch ) ) {
+  if( is_designer( ch ) ) {
     if( !strncasecmp( argument, "new ", 4 ) ) {
       argument += 4;
 

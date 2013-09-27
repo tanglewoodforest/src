@@ -891,7 +891,7 @@ void new_player( player_data* pl )
     snprintf( tmp, THREE_LINES, "New character %s created on account %s.",
 	      pl->descr->name,
 	      pl->pcdata->pfile->account->name );
-    info( LEVEL_IMMORTAL, empty_string, 0, tmp, IFLAG_LOGINS, 3, pl );
+    info( LEVEL_ARCHITECT, empty_string, 0, tmp, IFLAG_LOGINS, 3, pl );
     player_log( pl, "Created on account \"%s\" as \"%s\".",
 		pl->pcdata->pfile->account->name,
 		pl->descr->name );

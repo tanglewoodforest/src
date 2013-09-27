@@ -830,7 +830,7 @@ void do_title( char_data* ch, const char *argument )
     return;
 
   if( is_set( flags, 0 )
-      && is_immortal( ch ) ) {
+      && is_architect( ch ) ) {
 
     char arg1 [MAX_INPUT_LENGTH];
     argument = one_argument( argument, arg1 );

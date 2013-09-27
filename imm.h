@@ -5,8 +5,8 @@
 #define LEVEL_AVATAR               91
 #define LEVEL_APPRENTICE           92
 #define LEVEL_BUILDER              93
-#define LEVEL_ARCHITECT            94
-#define LEVEL_IMMORTAL             95
+#define LEVEL_DESIGNER            94
+#define LEVEL_ARCHITECT             95
 #define LEVEL_SPIRIT               96
 #define LEVEL_ANGEL                97
 #define LEVEL_DEMIGOD              98
@@ -109,8 +109,8 @@ inline bool has_permission( const char_data* ch, int flag, bool msg = false )
 inline bool is_avatar     ( const char_data* ch )  { return get_trust( ch ) >= LEVEL_AVATAR; }
 inline bool is_apprentice ( const char_data* ch )  { return get_trust( ch ) >= LEVEL_APPRENTICE; }
 inline bool is_builder    ( const char_data* ch )  { return get_trust( ch ) >= LEVEL_BUILDER; }
-inline bool is_architect  ( const char_data* ch )  { return get_trust( ch ) >= LEVEL_ARCHITECT; }
-inline bool is_immortal   ( const char_data* ch )  { return get_trust( ch ) >= LEVEL_IMMORTAL; }
+inline bool is_designer  ( const char_data* ch )  { return get_trust( ch ) >= LEVEL_DESIGNER; }
+inline bool is_architect   ( const char_data* ch )  { return get_trust( ch ) >= LEVEL_ARCHITECT; }
 inline bool is_spirit     ( const char_data* ch )  { return get_trust( ch ) >= LEVEL_SPIRIT; }
 inline bool is_angel      ( const char_data* ch )  { return get_trust( ch ) >= LEVEL_ANGEL; }
 inline bool is_demigod    ( const char_data* ch )  { return get_trust( ch ) >= LEVEL_DEMIGOD; }

@@ -27,7 +27,7 @@ bool are_allied( char_data* ch, char_data* victim )
 
 const char *associate( char_data* ch, char_data* victim, const char *fail_msg )
 {
-  if( ch->Level() >= LEVEL_IMMORTAL ) {
+  if( ch->Level() >= LEVEL_ARCHITECT ) {
     return empty_string;
   }
 

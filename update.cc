@@ -62,7 +62,7 @@ static void player_update( )
 	snprintf( buf, THREE_LINES, "%s has voided at %s.",
 		  pc->descr->name,
 		  pc->Location( ) );
-	info( LEVEL_IMMORTAL, empty_string, invis_level( pc ), buf, IFLAG_LOGINS, 3, pc );
+	info( LEVEL_ARCHITECT, empty_string, invis_level( pc ), buf, IFLAG_LOGINS, 3, pc );
 	send( pc, "Your mind wanders, and you lose awareness of your surroundings.\n\r" );
 	fsend_seen( pc, "%s is gone, although you didn't see %s leave.", pc, pc->Him_Her() );
 	pc->Save( );

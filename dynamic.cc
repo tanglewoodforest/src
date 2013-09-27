@@ -10,7 +10,7 @@
 
 // Dodger - Initial implementation 8/25/2013 - I'm a windows programmer, so look out for memory or string problems
 
-typedef bool tag_func (  );
+typedef bool tag_func ( room_data* room );
 
 class dynamic_tag
 {
@@ -19,26 +19,187 @@ class dynamic_tag
         tag_func* func;
 };
 
-bool is_day(  )
+bool is_day( room_data* room )
 {	
     return weather.is_day( );
 }
 
-bool is_night(  )
+bool is_night( room_data* room )
 {
     return !weather.is_day( );
 }
 
-bool is_true ( )
+bool is_true ( room_data* room)
 {
     return true;
 }
+
+bool is_exit_open_north ( room_data* room )
+{
+	if ( room == NULL )
+		return false;
+
+	for( int i = 0; i < room->exits; ++i ) 
+	{		
+		if ( room->exits[i]->direction == DIR_NORTH)
+		{			
+			if( !is_set( room->exits[i]->exit_info, EX_CLOSED ))
+			{				
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+bool is_exit_open_east ( room_data* room )
+{
+	if ( room == NULL )
+		return false;
+
+	for( int i = 0; i < room->exits; ++i ) 
+	{		
+		if ( room->exits[i]->direction == DIR_EAST)
+		{			
+			if( !is_set( room->exits[i]->exit_info, EX_CLOSED ))
+			{				
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+bool is_exit_open_south ( room_data* room )
+{
+	if ( room == NULL )
+		return false;
+
+	for( int i = 0; i < room->exits; ++i ) 
+	{		
+		if ( room->exits[i]->direction == DIR_SOUTH)
+		{			
+			if( !is_set( room->exits[i]->exit_info, EX_CLOSED ))
+			{				
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+bool is_exit_open_west ( room_data* room )
+{
+	if ( room == NULL )
+		return false;
+
+	for( int i = 0; i < room->exits; ++i ) 
+	{		
+		if ( room->exits[i]->direction == DIR_WEST)
+		{			
+			if( !is_set( room->exits[i]->exit_info, EX_CLOSED ))
+			{				
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+bool is_exit_closed_north ( room_data* room )
+{
+	if ( room == NULL )
+		return false;
+
+	for( int i = 0; i < room->exits; ++i ) 
+	{		
+		if ( room->exits[i]->direction == DIR_NORTH)
+		{			
+			if( is_set( room->exits[i]->exit_info, EX_CLOSED ))
+			{				
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+bool is_exit_closed_east ( room_data* room )
+{
+	if ( room == NULL )
+		return false;
+
+	for( int i = 0; i < room->exits; ++i ) 
+	{		
+		if ( room->exits[i]->direction == DIR_EAST)
+		{			
+			if( is_set( room->exits[i]->exit_info, EX_CLOSED ))
+			{				
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+bool is_exit_closed_south ( room_data* room )
+{
+	if ( room == NULL )
+		return false;
+
+	for( int i = 0; i < room->exits; ++i ) 
+	{		
+		if ( room->exits[i]->direction == DIR_SOUTH)
+		{			
+			if( is_set( room->exits[i]->exit_info, EX_CLOSED ))
+			{				
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+bool is_exit_closed_west ( room_data* room )
+{
+	if ( room == NULL )
+		return false;
+
+	for( int i = 0; i < room->exits; ++i ) 
+	{		
+		if ( room->exits[i]->direction == DIR_WEST)
+		{			
+			if( is_set( room->exits[i]->exit_info, EX_CLOSED ))
+			{				
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
 
 const dynamic_tag tag_index [] = 
 {
     { "day", is_day }, 
     { "night", is_night },
-    { "newline", is_true }
+    { "newline", is_true },
+	{ "open=north", is_exit_open_north },
+	{ "open=east", is_exit_open_east },
+	{ "open=south", is_exit_open_south },
+	{ "open=west", is_exit_open_west },
+	{ "closed=north", is_exit_closed_north },
+	{ "closed=east", is_exit_closed_east },
+	{ "closed=south", is_exit_closed_south },
+	{ "closed=west", is_exit_closed_west }
 };
 
 /// Given the description and tag, parse!
@@ -87,17 +248,17 @@ std::string ParseTag(const char* tag, std::string description, bool remove = fal
 }
 
 /// Given a provided description, parse any existing dynamic tags
-std::string GetDescription( const char *description ) 
+std::string GetDescription( const char *description, room_data* room ) 
 {	
     std::string new_description(description);
     //sprintf( new_description, "%s", description );
     
     //char *pString = new_description;
 
-    for (int i = 0; i < 2; i++ )
+    for (int i = 0; i < 11; i++ )
     { 
         //bug( "Parsing Dynamic Description %s:%d", tag_index[i].tag, tag_index[i].func( ) );
-        if ( tag_index[i].func( ) )
+        if ( tag_index[i].func( room ) )
             new_description = ParseTag( tag_index[i].tag, new_description );
         else
             new_description = ParseTag( tag_index[i].tag, new_description, true );			

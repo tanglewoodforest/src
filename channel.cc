@@ -255,7 +255,7 @@ static bool hear_channels( player_data* pc )
 
 static bool subtract_gsp( player_data* pl, const char* text, int cost )
 {
-  if( get_trust( pl ) < LEVEL_ARCHITECT ) {
+  if( get_trust( pl ) < LEVEL_DESIGNER ) {
     if( cost == 0 ) {
       if( pl->gossip_pts <= 0 ) {
 	fsend( pl, "%s doesn't consume any gossip points, but you must have some to use it.",
@@ -453,7 +453,7 @@ void do_chant( char_data* ch, const char *argument )
     pc = player_list[i];
     if( hear_channels( pc )
 	&& ( pc->pcdata->religion == ch->pcdata->religion
-	     || is_immortal( pc ) ) ) {
+	     || is_architect( pc ) ) ) {
       const char *const name = ch->Seen_Name( pc );
       add_tell( pc->chant, name, argument, -1 ); 
       if( is_set( pc->pcdata->pfile->flags, PLR_CHANT )
@@ -461,7 +461,7 @@ void do_chant( char_data* ch, const char *argument )
 	  && !pc->Filtering( ch ) ) {
 	const int max_length = format_tell( tmp, argument, pc );
 	char_data *victim = pc->switched ? pc->switched : pc;
-	if( is_immortal( pc )
+	if( is_architect( pc )
 	    && pc->pcdata->religion != ch->pcdata->religion ) {
 	  send_color( victim, COLOR_CHANT, "%s chants (%s):%s%s",
 		      name, relig,
@@ -538,8 +538,8 @@ void do_chat( char_data* ch, const char *argument )
     const bool allied = are_allied( ch, pc );
     if( hear_channels( pc )
 	&& ( allied
-	     || is_immortal( pc )
-	     || is_immortal( ch ) ) ) { 
+	     || is_architect( pc )
+	     || is_architect( ch ) ) ) { 
       const char *const name = who_name( pc, ch );
       add_tell( pc->chat, name, buf, language ); 
       if( pc != ch

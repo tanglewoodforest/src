@@ -965,7 +965,7 @@ void stop_idling( player_data *pl )
   snprintf( buf, THREE_LINES, "%s has returned from the void at %s.",
 	    pl->descr->name,
 	    pl->Location( ) );
-  info( LEVEL_IMMORTAL, empty_string, invis_level( pl ), buf, IFLAG_LOGINS, 3, pl );
+  info( LEVEL_ARCHITECT, empty_string, invis_level( pl ), buf, IFLAG_LOGINS, 3, pl );
 
   fsend_seen( pl, "%s is here, although you didn't see %s arrive.",
 	      pl, pl->Him_Her() );

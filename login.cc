@@ -204,7 +204,7 @@ static void finish_remort( link_data *link )
 	    remort->descr->name,
 	    pl->descr->name,
 	    link->account->name );
-  info( LEVEL_IMMORTAL, empty_string, 0, tmp, IFLAG_LOGINS, 2, pl );
+  info( LEVEL_ARCHITECT, empty_string, 0, tmp, IFLAG_LOGINS, 2, pl );
 
   sprintf_minutes( tmp, remort->time_played( ) );
 

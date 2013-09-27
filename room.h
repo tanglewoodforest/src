@@ -352,7 +352,7 @@ bool   arid           ( const char_data*, const room_data* = 0 );
 bool   forest         ( const char_data*, const room_data* = 0 );
 
 // TODO - Dodger, move these to a more appropriate header location
-std::string GetDescription( const char* ) ;
+std::string GetDescription( const char*, room_data* room ) ;
 std::string FormatOutput ( char *description, int columns ) ;
 
 #endif // twf_room_h
