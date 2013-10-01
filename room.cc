@@ -859,13 +859,12 @@ void do_rstat( char_data* ch, const char *argument )
 
   const area_data *const area = room->area;
 
-  page( ch, "        Area: %s\n\r", area->name );
+  page( ch, "        Area: " );
+  page_color( ch, COLOR_ROOM_NAME, "%s\n\r", area->name );
   page( ch, "     Creator: %s\n\r", area->creator );
-  page( ch, "        Help: %s\n\r", area->help );
-  page( ch, "       Level: %-14d Status: %s\n\r",
-	area->level, area_status[ area->status ] );
-  page( ch, "  Reset Rate: %-12d Filename: %-14s Climate: %s\n\r",
-	area->reset_time, area->file, climate_table[area->climate].name );
+  page( ch, "        Help: %-15s Start: %d\n\r", area->help, area->room_first->vnum );
+  page( ch, "       Level: %-14d Status: %s\n\r", area->level, area_status[ area->status ] );
+  page( ch, "  Reset Rate: %-12d Filename: %-14s Climate: %s\n\r", area->reset_time, area->file, climate_table[area->climate].name );
 
   page( ch, scroll_line[0] );
 
