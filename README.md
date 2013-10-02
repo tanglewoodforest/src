@@ -1,162 +1,62 @@
 
-GitHub Flavored Markdown
+
+Tanglewood Forest MUD
 ================================
-
-*View the [source of this content](http://github.github.com/github-flavored-markdown/sample_content.html).*
-
-Let's get the whole "linebreak" thing out of the way. The next paragraph contains two phrases separated by a single newline character:
-
-Roses are red
-Violets are blue
-
-The next paragraph has the same phrases, but now they are separated by two spaces and a newline character:
-
-Roses are red  
-Violets are blue
-
-Oh, and one thing I cannot stand is the mangling of words with multiple underscores in them like perform_complicated_task or do_this_and_do_that_and_another_thing.
-
-A bit of the GitHub spice
--------------------------
-
-In addition to the changes in the previous section, certain references are auto-linked:
-
-* SHA: be6a8cc1c1ecfe9489fb51e4869af15a13fc2cd2
-* User@SHA ref: mojombo@be6a8cc1c1ecfe9489fb51e4869af15a13fc2cd2
-* User/Project@SHA: mojombo/god@be6a8cc1c1ecfe9489fb51e4869af15a13fc2cd2
-* \#Num: #1
-* User/#Num: mojombo#1
-* User/Project#Num: mojombo/god#1
-
-These are dangerous goodies though, and we need to make sure email addresses don't get mangled:
-
-My email addy is tom@github.com.
-
-Math is hard, let's go shopping
--------------------------------
-
-In first grade I learned that 5 > 3 and 2 < 7. Maybe some arrows. 1 -> 2 -> 3. 9 <- 8 <- 7.
-
-Triangles man! a^2 + b^2 = c^2
-
-We all like making lists
-------------------------
-
-The above header should be an H2 tag. Now, for a list of fruits:
-
-* Red Apples
-* Purple Grapes
-* Green Kiwifruits
-
-Let's get crazy:
-
-1.  This is a list item with two paragraphs. Lorem ipsum dolor
-    sit amet, consectetuer adipiscing elit. Aliquam hendrerit
-    mi posuere lectus.
-
-    Vestibulum enim wisi, viverra nec, fringilla in, laoreet
-    vitae, risus. Donec sit amet nisl. Aliquam semper ipsum
-    sit amet velit.
-
-2.  Suspendisse id sem consectetuer libero luctus adipiscing.
-
-What about some code **in** a list? That's insane, right?
-
-1. In Ruby you can map like this:
-
-        ['a', 'b'].map { |x| x.uppercase }
-
-2. In Rails, you can do a shortcut:
-
-        ['a', 'b'].map(&:uppercase)
-
-Some people seem to like definition lists
-
-<dl>
-  <dt>Lower cost</dt>
-  <dd>The new version of this product costs significantly less than the previous one!</dd>
-  <dt>Easier to use</dt>
-  <dd>We've changed the product so that it's much easier to use!</dd>
-</dl>
-
-I am a robot
-------------
-
-Maybe you want to print `robot` to the console 1000 times. Why not?
-
-    def robot_invasion
-      puts("robot " * 1000)
-    end
-
-You see, that was formatted as code because it's been indented by four spaces.
-
-How about we throw some angle braces and ampersands in there?
-
-    <div class="footer">
-        &copy; 2004 Foo Corporation
-    </div>
-
-Set in stone
-------------
-
-Preformatted blocks are useful for ASCII art:
-
 <pre>
-             ,-. 
-    ,     ,-.   ,-. 
-   / \   (   )-(   ) 
-   \ |  ,.>-(   )-' 
-    \|,' (   )-(   ) 
-     Y ___`-'   `-' 
-     |/__/   `-' 
-     | 
-     | 
-     |    -hrr- 
-  ___|_____________ 
++=--------------------------------------------------------------------------=+
+| Thanks to: Michael Seifert, Hans Henrik Strfeldt, Tom Madsen, Katja Nyboe, |
+| and especially Alan Button for their many ideas and starting us down this  |
+| twisting road of imagination.                                              |
++=--------------------------------------------------------------------------=+
+                _____                 _                              _
+               |_   _|_ _ _ __   __ _| | _____      _____   ___   __| |
+                 | |/ _` | '_ \ / _` | |/ _ \ \ /\ / / _ \ / _ \ / _` |
+                 | | (_| | | | | (_| | |  __/\ V  V / (_) | (_) | (_| |
+                 |_|\__,_|_| |_|\__, |_|\___| \_/\_/ \___/ \___/ \__,_|
+                                |___/   _____                   _
+                                       |  ___|__  _ __ ___  ___| |_
+                                       | |_ / _ \| '__/ _ \/ __| __|
+                                       |  _| (_) | | |  __/\__ \ |_
+ ___ ___   _   ___  __  __ ___         |_|  \___/|_|  \___||___/\__|
+| _ \ __| /_\ |   \|  \/  | __|
+|   / _| / _ \| |) | |\/| | _|               http://www.tanglewoodforest.tk/
+|_|_\___/_/ \_\___/|_|  |_|___|.md
 </pre>
 
-Playing the blame game
-----------------------
+What is Tanglewood Forest?
+--------------------------
+[Tanglewood Forest (TWF)] [1] is a popular, classic [Multi-User Domain (MUD)] [2], which means it's a text-based adventure game on the internet. It was developed by Alan Button, a.k.a. Greyclaw, by extending the [ROM codebase] [3] with a general-purpose "softcode" parser for building complex situations for players. The game attracted a large base of addicted players and a corps of talented builders. Greyclaw himself abandoned the game several years ago. The current implementation started with Greyclaw's final codebase and world database distribution, and has many added capabilities and features, bug fixes, and new areas for players to explore. [Connect Now] [4]!
 
-If you need to blame someone, the best way to do so is by quoting them:
+  [1]: http://www.tanglewoodforest.tk:4000/    "Tanglewood Forest MUD"
+  [2]: http://en.wikipedia.org/wiki/MUD        "Wikipedia: MUD"
+  [3]: http://www.rom.org/                     "ROM (Rivers of MUD)"
+  [4]: telnet://mud.tanglewoodforest.tk:4000/  "Connect Now!"
 
-> I, at any rate, am convinced that He does not throw dice.
+Invitation to Adventure!
+------------------------
+Are you ~~dumb~~ambitious enough to want to administer your own MUD? This is the codebase for you! Not only was the original MUD considered *very* difficult as a player, managing the codebase, instance files, tables, and softcode are a ~~nightmare~~joy!
 
-Or perhaps someone a little less eloquent:
+This code is part of the [MUD] [1]->[AberMUD] [2]->[DikuMUD] [3]->[Copper] [4]->[MERC] [5]->[ROM] [6]->[The Forest's Edge] [7] family of MUDs. If you would like more information on the TFE family tree, I have also been trying to collect all of our variations over the years at [http://tfe.thefightingferret.com/] [8]. If you do end up running away with the code to build your greatest text-based fantasy, just remember it comes with all inherited rights and permissions as any of the previous iterations.
 
-> I wish you'd have given me this written question ahead of time so I
-> could plan for it... I'm sure something will pop into my head here in
-> the midst of this press conference, with all the pressure of trying to
-> come up with answer, but it hadn't yet...
->
-> I don't want to sound like
-> I have made no mistakes. I'm confident I have. I just haven't - you
-> just put me under the spot here, and maybe I'm not as quick on my feet
-> as I should be in coming up with one.
+  [1]: http://en.wikipedia.org/wiki/MUD1                 "MUD1"
+  [2]: http://en.wikipedia.org/wiki/AberMUD              "AberMUD"
+  [3]: http://en.wikipedia.org/wiki/DikuMUD              "DikuMUD"
+  [4]: http://en.wikipedia.org/wiki/Copper_MUD           "Copper"
+  [5]: http://en.wikipedia.org/wiki/Merc_(MUD)           "Merc"
+  [6]: http://en.wikipedia.org/wiki/ROM_(MUD)            "Rivers of MUD"
+  [7]: http://en.wikipedia.org/wiki/The_Forests%27_Edge  "The Forest's Edge"
+  [8]: http://tfe.thefightingferret.com/                 "The Fighting Ferret TFE Archive"
 
-Table for two
--------------
+Typical Disclaimer
+------------------
+Insert typical disclaimer of no help, no warrenties, no etcs.
 
-<table>
-  <tr>
-    <th>ID</th><th>Name</th><th>Rank</th>
-  </tr>
-  <tr>
-    <td>1</td><td>Tom Preston-Werner</td><td>Awesome</td>
-  </tr>
-  <tr>
-    <td>2</td><td>Albert Einstein</td><td>Nearly as awesome</td>
-  </tr>
-</table>
+No Areas, Objects, Mobs, or Tables?
+-----------------------------------
+Correct. As these are the files or authorship in the MUD itself, these are not necessarily open for distribution. I want those building in my server to retain some sort of exclusivity to their asset files. Naturally, that doesn't stop someone from jumping on the free-to-play server and copying everything down by hand, but hey, if you want it that bad, who's going to stop you, eh?
 
-Crazy linking action
---------------------
+All hardcoded people, places, or things should be relatively obvious in the code itself, and if not, the MUD will and not boot properly and complain as to what it wants. File formats are similar to that which was instilled by Severus in his earlier version of TFE Classic.
 
-I get 10 times more traffic from [Google] [1] than from
-[Yahoo] [2] or [MSN] [3].
-
-  [1]: http://google.com/        "Google"
-  [2]: http://search.yahoo.com/  "Yahoo Search"
-  [3]: http://search.msn.com/    "MSN Search"
+### Thank you and have fun! ###
 
 
