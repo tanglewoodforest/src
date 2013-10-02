@@ -12,7 +12,7 @@ Violets are blue
 
 The next paragraph has the same phrases, but now they are separated by two spaces and a newline character:
 
-Roses are red
+Roses are red  
 Violets are blue
 
 Oh, and one thing I cannot stand is the mangling of words with multiple underscores in them like perform_complicated_task or do_this_and_do_that_and_another_thing.
@@ -103,17 +103,17 @@ Set in stone
 Preformatted blocks are useful for ASCII art:
 
 <pre>
-             ,-.
-    ,     ,-.   ,-.
-   / \   (   )-(   )
-   \ |  ,.>-(   )-<
-    \|,' (   )-(   )
-     Y ___`-'   `-'
-     |/__/   `-'
-     |
-     |
-     |    -hrr-
-  ___|_____________
+             ,-. 
+    ,     ,-.   ,-. 
+   / \   (   )-(   ) 
+   \ |  ,.>-(   )-< 
+    \|,' (   )-(   ) 
+     Y ___`-'   `-' 
+     |/__/   `-' 
+     | 
+     | 
+     |    -hrr- 
+  ___|_____________ 
 </pre>
 
 Playing the blame game
@@ -159,4 +159,5 @@ I get 10 times more traffic from [Google] [1] than from
   [1]: http://google.com/        "Google"
   [2]: http://search.yahoo.com/  "Yahoo Search"
   [3]: http://search.msn.com/    "MSN Search"
+
 
