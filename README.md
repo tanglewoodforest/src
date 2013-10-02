@@ -1,5 +1,4 @@
 
-
 GitHub Flavored Markdown
 ================================
 
@@ -106,7 +105,7 @@ Preformatted blocks are useful for ASCII art:
              ,-. 
     ,     ,-.   ,-. 
    / \   (   )-(   ) 
-   \ |  ,.>-(   )-< 
+   \ |  ,.>-(   )-' 
     \|,' (   )-(   ) 
      Y ___`-'   `-' 
      |/__/   `-' 
