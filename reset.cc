@@ -1393,6 +1393,22 @@ void write( FILE* fp, reset_data* reset )
   fprintf( fp, "-1\n" );
 }
 
+void dump_xml( FILE* fp, reset_data* reset )
+{
+    fprintf( fp, "<resets>\n" );
+    for( ; reset; reset = reset->next ) {
+        fprintf( fp, "\t<reset>\n" );
+        fprintf( fp, "\t\t<vnum>%d</vnum>\n", reset->vnum );
+        fprintf( fp, "\t\t<flags>%d</flags>\n", reset->flags );
+        fprintf( fp, "\t\t<chances>%d</chances>\n", reset->chances );
+        fprintf( fp, "\t\t<value>%d</value>\n", reset->value );
+        fprintf( fp, "\t\t<liquid>%d</liquid>\n", reset->liquid );
+        fprintf( fp, "\t</reset>\n" );
+    }
+    fprintf( fp, "\t<!-- \"-1\" -->\n" );
+    fprintf( fp, "</resets>\n" );
+}
+
 
 /*
  *   COMMANDS TO LOCATE RESETS 

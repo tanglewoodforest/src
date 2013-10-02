@@ -30,6 +30,7 @@ public:
 
   virtual void read( FILE* );
   virtual void write( FILE* );
+  virtual void dump_xml( FILE* );
 
   virtual void Set_Code( const char * );
   virtual void Read_Code( FILE* );

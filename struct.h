@@ -826,6 +826,8 @@ bool   vegetarian         ( char_data* );
 void   water_shock        ( char_data*, char_data*, int );
 void   write              ( FILE*, action_data* );
 void   write              ( FILE*, reset_data* );
+void   dump_xml           ( FILE*, action_data* );
+void   dump_xml           ( FILE*, reset_data* );
 void   zero_exp           ( species_data* );
 
 #endif // twf_struct_h

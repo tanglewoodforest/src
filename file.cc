@@ -709,7 +709,7 @@ void do_dump( char_data* ch, const char *argument )
             match = true;
             if( !has_permission( ch, PERM_WRITE_AREAS, true ) )
                 continue;
-            ch->in_room->area->Dump( 's' );
+            ch->in_room->area->Dump( ch, 's' );
             snprintf( buf, MAX_INPUT_LENGTH, "%s.sql dumped by %s.", ch->in_room->area->name, ch->descr->name );
             send( ch, "SQL dump saved.\n\r" );
         }
@@ -718,7 +718,7 @@ void do_dump( char_data* ch, const char *argument )
             match = true;
             if( !has_permission( ch, PERM_WRITE_AREAS, true ) )
                 continue;
-            ch->in_room->area->Dump( 'x' );
+            ch->in_room->area->Dump( ch, 'x' );
             snprintf( buf, MAX_INPUT_LENGTH, "%s.xml dumped by %s.", ch->in_room->area->name, ch->descr->name );
             send( ch, "XML dump saved.\n\r" );
         }
@@ -727,7 +727,7 @@ void do_dump( char_data* ch, const char *argument )
             match = true;
             if( !has_permission( ch, PERM_WRITE_AREAS, true ) )
                 continue;
-            ch->in_room->area->Dump( 'h' );
+            ch->in_room->area->Dump( ch, 'h' );
             snprintf( buf, MAX_INPUT_LENGTH, "%s.html dumped by %s.", ch->in_room->area->name, ch->descr->name );
             send( ch, "HTML dump saved.\n\r" );
         }

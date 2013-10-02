@@ -41,6 +41,16 @@ void program_data :: write( FILE *fp )
   write_extras( fp, data );
 }
 
+void program_data :: dump_xml( FILE *fp )
+{
+  fprintf( fp, "<code>\n" );
+  fprintf( fp, "\t<text>\n" );
+  fwrite_string( fp, code );
+  fprintf( fp, "\t</text>\n" );
+  dump_extras_xml( fp, data );
+  fprintf( fp, "</code>\n" );
+}
+
 
 void program_data :: Set_Code( const char *text )
 {

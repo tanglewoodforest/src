@@ -44,6 +44,7 @@ void  show_extras   ( char_data*, const extra_array& );
 bool  edit_extra    ( extra_array&, wizard_data*, int, const char *, char* );
 void  read_extras   ( FILE*, extra_array& );
 void  write_extras  ( FILE*, const extra_array& );
+void  dump_extras_xml( FILE*, const extra_array& );
 void  obj_act_spam  ( int, char_data*, obj_data*, char_data*,
 		      const char *, const char *, bool = false );
 void  obj_loc_spam  ( char_data*, obj_data*, char_data*,

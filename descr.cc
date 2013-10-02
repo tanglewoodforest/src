@@ -80,6 +80,17 @@ void write_extras( FILE* fp, const extra_array& list )
   }
 }
 
+void dump_extras_xml( FILE* fp, const extra_array& list )
+{
+    fprintf( fp, "<extras>\n" );
+    for( int i = 0; i < list; ++i ) {
+        fprintf( fp, "\t<extra>\n" );
+        fprintf( fp, "\t\t<keyword>%s</keyword>\n", list.list[i]->keyword );
+        fprintf( fp, "\t\t<text>%s</text>\n", list.list[i]->text );
+        fprintf( fp, "\t</extra>\n" );
+    }
+    fprintf( fp, "</extras>\n" );
+}
 
 /* 
  *   SUPPORT ROUTINES

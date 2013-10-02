@@ -328,6 +328,32 @@ void Room_Data :: write_actions( FILE *fp ) const
   }
 }
 
+void Room_Data :: dump_actions_xml( FILE *fp ) const
+{
+    bool temp_load = !area->act_loaded;
+
+    if( temp_load ) {
+        area->load_actions( );
+    }
+
+    fprintf( fp, "<actions>\n" );
+    for( action_data *act = action; act; act = act->next ) {
+        fprintf( fp, "\t<action>\n" );
+        fprintf( fp, "\t\t<command>%s</command>\n", act->command );
+        fprintf( fp, "\t\t<target>%s</target>\n", act->target );
+        act->dump_xml( fp );
+        fprintf( fp, "\t\t<!-- \"!\" -->\n" );
+        fprintf( fp, "\t\t<trigger>%d</trigger>\n", act->trigger );
+        fprintf( fp, "\t\t<value>%d</value>\n", act->value );
+        fprintf( fp, "\t\t<flags>%d</flags>\n", act->flags );
+        fprintf( fp, "\t</action>\n" );
+    }
+    fprintf( fp, "</actions>\n" );
+
+    if( temp_load ) {
+        area->clear_actions( );
+    }
+}
 
 
 /*

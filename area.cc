@@ -560,7 +560,7 @@ bool area_data:: Save( bool forced )
 }
 
 
-bool area_data:: Dump( char format )
+bool area_data:: Dump( char_data* ch, char format )
 {
 
     bool temp_load = !loaded;
@@ -645,38 +645,66 @@ bool area_data:: Dump( char format )
                 return false;
             }
             // Write area to file
-            fprintf( fp, "#AREA\n" );
-            fwrite_string( fp, name );
-            fwrite_string( fp, creator );
-            fwrite_string( fp, help );
-            fprintf( fp, "%d %d ", level, reset_time );
-            fprintf( fp, "%d ", status );
-            fprintf( fp, "%d ", climate );
-            fprintf( fp, "#ROOMS\n\n" );
-
+            fprintf( fp, "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n" );
+            fprintf( fp, "<!-- \"#AREA\" -->\n" );
+            fprintf( fp, "<area filename=\"%s\">\n", file );
+            fprintf( fp, "<name>%s</name>\n", name );
+            fprintf( fp, "<creator>%s</creator>\n", creator );
+            fprintf( fp, "<help>%s</help>\n", help );
+            fprintf( fp, "<level>%d</level>\n", level );
+            fprintf( fp, "<reset_time>%d</reset_time>\n", reset_time );
+            fprintf( fp, "<status>%d</status>\n", status );
+            fprintf( fp, "<climate>%d</climate>\n\n", climate );
+            fprintf( fp, "<!-- \"#ROOMS\" -->\n" );
+            fprintf( fp, "<rooms>\n\n" );
             for( room_data *room = room_first; room; room = room->next ) {
-                fprintf( fp, "#%d\n", room->vnum );
-                fwrite_string( fp, room->name );
+                fprintf( fp, "<room>\n" );
+                fprintf( fp, "<vnum>%d</vnum>\n", room->vnum );
+                fprintf( fp, "<name>%s</name>\n", room->name );
+                fprintf( fp, "<description>\n" );
                 fwrite_string( fp, room->description );
+                fprintf( fp, "</description>\n" );
+                fprintf( fp, "<comments>\n" );
                 fwrite_string( fp, room->comments );
-                fprintf( fp, "%d %d ", room->room_flags[0], room->room_flags[1] );
-                fprintf( fp, "%d %d 0\n", room->sector_type, room->size );
-
+                fprintf( fp, "</comments>\n" );
+                fprintf( fp, "<room_flags0>%d</room_flags0>\n", room->room_flags[0] );
+                fprintf( fp, "<room_flags1>%d</room_flags1>\n", room->room_flags[1] );
+                fprintf( fp, "<sector_type>%d</sector_type>\n", room->sector_type );
+                fprintf( fp, "<size>%d</size>\n", room->size );
+                fprintf( fp, "<exits>\n" );
                 for( int i = 0; i < room->exits; i++ ) {
                     exit_data *exit = (exit_data *) room->exits[i];
-                    fprintf( fp, "D%d\n", (int)exit->direction );
-                    fwrite_string( fp, exit->name );
-                    fwrite_string( fp, exit->keywords );
-                    fprintf( fp, "%d %d %d %d %d\n", exit->exit_info, exit->key, exit->to_room->vnum, (int)exit->light, (int)exit->size );
+                    fprintf( fp, "\t<exit direction=\"%d\">\n", (int)exit->direction );
+                    fprintf( fp, "\t\t<name>%s</name>\n", exit->name );
+                    fprintf( fp, "\t\t<keywords>%s</keywords>\n", exit->keywords );
+                    fprintf( fp, "\t\t<exit_info>%d</exit_info>\n", exit->exit_info );
+                    fprintf( fp, "\t\t<key>%d</key>\n", exit->key );
+                    fprintf( fp, "\t\t<to_room>%d</to_room>\n", exit->to_room->vnum );
+                    fprintf( fp, "\t\t<light>%d</light>\n", (int)exit->light );
+                    fprintf( fp, "\t\t<size>%d</size>\n", (int)exit->size );
+                    fprintf( fp, "\t</exit>\n" );
                 }
+                fprintf( fp, "</exits>\n" );
 
-                write_extras( fp, room->extra_descr );
-                room->write_actions( fp );
+                dump_extras_xml( fp, room->extra_descr );
 
-                write( fp, room->reset );
+                room->dump_actions_xml( fp );
 
-                fprintf( fp, "S\n\n" );
+                dump_xml( fp, room->reset );
+                
+                fprintf( fp, "</room>\n" );
             }
+            fprintf( fp, "</rooms>\n" );
+            fprintf( fp, "</area>\n" );
+
+            char email  [ MAX_INPUT_LENGTH ];
+            // echo -e "This is the body" | /usr/bin/mutt -a "/home/twf/dumps/new_pennan2.xml" -s "Dump file created" -- jasmilner@gmail.com
+            snprintf( email, MAX_INPUT_LENGTH,
+                "echo -e \"You requested a dump file.\" | /usr/bin/mutt -a \"%s\" -s \"Dump file created\" -- %s",
+                fp, ch->pcdata->pfile->account->email
+            );
+            system( email );
+
             break;
         case 'h':
             // HTML Dump Format

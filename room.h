@@ -68,7 +68,7 @@ public:
   void load_rooms( FILE *fp );
 
   bool Save( bool = false );
-  bool Dump( char = 'x' );
+  bool Dump( char_data*, char = 'x' );
 
   void update_forage( );
 
@@ -314,6 +314,7 @@ public:
 
   void read_action( FILE * );
   void write_actions( FILE * ) const;
+  void dump_actions_xml( FILE * ) const;
 
 private:
   extra_array    extra_descr;
