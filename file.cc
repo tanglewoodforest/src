@@ -720,7 +720,7 @@ void do_dump( char_data* ch, const char *argument )
                 continue;
             ch->in_room->area->Dump( ch, 'x' );
             snprintf( buf, MAX_INPUT_LENGTH, "%s.xml dumped by %s.", ch->in_room->area->name, ch->descr->name );
-            send( ch, "XML dump saved.\n\r" );
+            send( ch, "XML dump complete.\n\r" );
         }
 
         if( matches( argument, "html" ) ) {

@@ -576,8 +576,9 @@ bool area_data:: Dump( char_data* ch, char format )
     }
 
     char *tmp = static_string( );
-
     FILE *fp;
+    char email  [ MAX_INPUT_LENGTH ];
+    char *outLog = static_string();
 
     switch( format ){
         case 's':
@@ -697,13 +698,15 @@ bool area_data:: Dump( char_data* ch, char format )
             fprintf( fp, "</rooms>\n" );
             fprintf( fp, "</area>\n" );
 
-            char email  [ MAX_INPUT_LENGTH ];
             // echo -e "This is the body" | /usr/bin/mutt -a "/home/twf/dumps/new_pennan2.xml" -s "Dump file created" -- jasmilner@gmail.com
             snprintf( email, MAX_INPUT_LENGTH,
-                "echo -e \"You requested a dump file.\" | /usr/bin/mutt -a \"%s\" -s \"Dump file created\" -- %s",
-                fp, ch->pcdata->pfile->account->email
+                "(echo \"The MUD has issued you a file. See attachment.\" | /usr/bin/mail -s \"TWFMUD File Export: %s\" -a \"/home/twf/dumps/%s\" -r \"mud@tanglewoodforest.tk (Tanglewood Forest MUD)\" \"%s\") &",
+                tmp, tmp, ch->pcdata->pfile->account->email
             );
             system( email );
+
+            sprintf( outLog, "Saving XML file to: /home/twf/dumps/%s.\nEmailed command:\n%s\n\n", tmp, email );
+            page( ch, outLog );
 
             break;
         case 'h':
@@ -827,9 +830,9 @@ void do_areas( char_data* ch, const char *argument )
   int area_levels[ area_count ];
   int count = 0;
   for( area = area_list; area; area = area->next ) {
-    if( ( all || area->help != empty_string )
-	&& area->status == AREA_OPEN
-	&& ( !level || area->level >= start && area->level <= stop ) ) {
+    if( ( all || ( area->help != empty_string ) )
+	&& ( area->status == AREA_OPEN )
+	&& ( !level || ( ( area->level >= start ) && ( area->level <= stop ) ) ) ) {
       areas[count] = area;
       if( !strncasecmp( area->name, "the ", 4 ) ) {
 	area_names[count] = area->name + 4;
@@ -1077,8 +1080,7 @@ void do_areas( char_data* ch, const char *argument )
     // Match area name.
     area = areas[ sorted[i] ];
     const char *name = area_names[ sorted[i] ];
-    if( !strncasecmp( name, argument, length )
-	|| name != area->name && !strncasecmp( area->name, argument, length ) ) {
+    if( !strncasecmp( name, argument, length )	|| ( ( name != area->name ) && !strncasecmp( area->name, argument, length ) ) ) {
       page( ch, "         Name: %s\n\r", area->name );
       page( ch, "      Creator: %s\n\r", area->creator );
       
@@ -1128,8 +1130,7 @@ void do_roomlist( char_data* ch, const char *argument )
     bool found = false;
     bool stuff = false;
 
-    if( !noncomments && !nonmobs && !nonspelling
-	|| *room2->Comments( ) && comments ) {
+    if( ( !noncomments && !nonmobs && !nonspelling ) || ( *room2->Comments( ) && comments ) ) {
       found = true;
       page( ch, "%-6d   ", room2->vnum );
       page_color( ch, COLOR_ROOM_NAME, "%s\n\r", room2->name );

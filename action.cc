@@ -962,6 +962,7 @@ void do_aedit( char_data *ch, const char *argument )
     imm->action_edit = action;
     imm->adata_edit  = 0;
     send( ch, "You now edit action %d.\n\r", i );
+    do_astat( ch, "" );
     return;
   }
   

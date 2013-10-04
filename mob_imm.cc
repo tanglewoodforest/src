@@ -903,6 +903,7 @@ void do_medit( char_data* ch, const char *argument )
   imm->mpdata_edit = 0;
 
   fsend( ch, "Mstat, mset, mflag, mdesc, mreset, marmor, mskill, and mbug now operate on %s.", species );
+  do_mstat( ch, argument );
 }
 
 

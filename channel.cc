@@ -79,22 +79,16 @@ static void display( tell_data *const& list, char_data* ch, const char *text,
     format_tell( tmp, tell->message, ch );
     if( tell->language != -1 ) {
       if( ch->get_skill( tell->language ) == UNLEARNT ) {
-	page( ch, "[%s >> ???]\n\r%s%s\n\r",
-	      tell->name,
-	      tmp,
-	      tell->next ? "\n\r" : "" );
+	page( ch, "[%s >> ???]  %s%s",
+	      tell->name, tmp, tell->next ? "\n\r" : "" );
       } else {
-	page( ch, "[%s >> %s]\n\r%s%s\n\r",
-	      tell->name,
-	      skill_entry(tell->language)->name,
-	      tmp,
-	      tell->next ? "\n\r" : "" );
+	page( ch, "[%s >> %s]  %s%s",
+	      tell->name, skill_entry(tell->language)->name,
+	      tmp, tell->next ? "\n\r" : "" );
       }
     } else {
-      page( ch, "[%s]\n\r%s%s\n\r",
-	    tell->name,
-	    tmp,
-	    tell->next ? "\n\r" : "" );
+      page( ch, "[%s]  %s%s",
+	    tell->name, tmp, tell->next ? "\n\r" : "" );
     }
   }
 }
