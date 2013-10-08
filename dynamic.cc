@@ -291,7 +291,7 @@ std::string WordWrap(std::string a, int columns)
     {
         index = a.substr(0,WIDTH).find_last_of(" ");
         wrapped.append(a.substr(0,index));
-        wrapped.append("\n");
+        wrapped.append("\n\r");
         a = a.substr(index+1);
     }
 
