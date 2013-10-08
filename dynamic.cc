@@ -29,6 +29,21 @@ bool is_night( room_data* room )
     return !weather.is_day( );
 }
 
+bool is_fullmoon( room_data* room )
+{   
+    if ( room == NULL )
+        return false;
+
+    if( room->is_indoors( ) || is_set( room->room_flags, RFLAG_UNDERGROUND ) )
+        return false;
+
+    if ( weather.moon_phase == 4 )
+        return true;
+    else
+        return false;
+
+}
+
 bool is_true ( room_data* room)
 {
     return true;
@@ -206,6 +221,7 @@ bool is_autumn ( room_data* room )
 	return weather.month > 8 && weather.month < 11;
 }
 
+#define MAX_TAG      16
 const dynamic_tag tag_index [] = 
 {
     { "day", is_day }, 
@@ -219,10 +235,11 @@ const dynamic_tag tag_index [] =
     { "closed=east", is_exit_closed_east },
     { "closed=south", is_exit_closed_south },
     { "closed=west", is_exit_closed_west },
-	{ "winter", is_winter },
-	{ "spring", is_spring },
-	{ "summer", is_summer },
-	{ "autumn", is_autumn }
+    { "winter", is_winter },
+    { "spring", is_spring },
+    { "summer", is_summer },
+    { "autumn", is_autumn },
+    { "fullmoon", is_fullmoon }
 };
 
 /// Given the description and tag, parse!
@@ -269,7 +286,7 @@ std::string GetDescription( const char *description, room_data* room )
 {	
     std::string new_description(description);
     
-    for (int i = 0; i < 15; i++ )
+    for (int i = 0; i < MAX_TAG; i++ )
     {         
         if ( tag_index[i].func( room ) )
             new_description = ParseTag( tag_index[i].tag, new_description );
