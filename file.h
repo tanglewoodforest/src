@@ -32,6 +32,8 @@
 #define ROOM_PREV_DIR      "../prev/rooms/" 
 #define ROOM_LOG_DIR       "../logs/room/"
 #define ROOM_SWAP_DIR      "../var/swap/room/"
+#define SQL_EXPORT_DIR     "../sql/"
+#define SQL_PREV_DIR       "../prev/sql/"
 #define TABLE_DIR          "../tables/"
 #define TABLE_PREV_DIR     "../prev/tables/"
 #define TEMP_DIR           "../var/tmp"
@@ -45,6 +47,7 @@
 #define DICTIONARY_FILE  "dictionary.txt"
 #define GODLOCK_FILE     "../var/control/godlock"
 #define HELP_FILE        "help.are"
+#define HELP_SQL         "help.sql"
 #define HTML_INDEX_FILE  "index.html"
 #define HTML_PLAYER_FILE "players.html"
 #define LIST_FILE        "Lists"
@@ -284,6 +287,8 @@ char*   fread_string      ( FILE*, int );
 char*   fread_word        ( FILE* );
 
 void    fwrite_string     ( FILE*, const char* );
+void    fwrite_xmlstring  ( FILE*, const char* );
+void    fwrite_sqlstring  ( FILE*, const char* );
 
 void write_all  ( bool = false );
 

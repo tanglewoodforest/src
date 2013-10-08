@@ -205,6 +205,33 @@ static bool save_html_help( )
   return true;
 }
 
+static bool sqlize_help( )
+{
+    rename_file( SQL_EXPORT_DIR, HELP_SQL, SQL_PREV_DIR, HELP_SQL );
+
+    FILE *fp;
+
+    if( !( fp = open_file( SQL_EXPORT_DIR, HELP_SQL, "w" ) ) )
+        return false;
+
+    for( int pos = 0; pos < max_help; ++pos ) {
+        const help_data *help = help_list[pos];
+        fprintf( fp, "INSERT INTO `help` (`level0`, `level1`, `category`, `when`, `by`, `name`, `text`, `immortal`) VALUES ( " );
+        fprintf( fp, "'%d', '%d', '%d', '%ld', ", help->level[0], help->level[1], help->category, help->when );
+        fwrite_sqlstring( fp, help->by ); fprintf( fp, ", " );
+        fwrite_sqlstring( fp, help->name ); fprintf( fp, ", " );
+        fwrite_sqlstring( fp, help->text ); fprintf( fp, ", " );
+        fwrite_sqlstring( fp, help->immortal ); fprintf( fp, "); \n" );
+    }
+
+    fclose( fp );
+
+    system("mysql -u twfmud \"-ph6G4F8jk9H56\" \"twf\" -e 'TRUNCATE TABLE `help`'");
+    system("mysql -u twfmud \"-ph6G4F8jk9H56\" \"twf\" < /home/twf/sql/help.sql");
+
+    return true;
+}
+
 
 /*
  *   READ/WRITE ROUTINES
@@ -295,6 +322,9 @@ bool save_help( )
 
   if( !save_html_help( ) ) {
     bug( "Failed to write HTML help files.\n" );
+  }
+  if( !sqlize_help( ) ) {
+    bug( "Failed to write SQL help files.\n" );
   }
 
   return true;

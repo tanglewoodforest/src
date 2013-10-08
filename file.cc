@@ -359,6 +359,118 @@ void fwrite_string( FILE *fp, const char *s )
     }
 }
 
+void fwrite_xmlstring( FILE *fp, const char *s )
+{
+    if( fputc( '\"', fp ) == EOF ) {
+        bug( "Fwrite_XMLString: can't write start-of-string delimiter." );
+    }
+
+    if( s ) {
+        while( *s ) {
+            size_t n = 0;
+            const char *t = s;
+
+            for( ; *t && *t != '\"' && *t != '\'' && *t != '<' && *t != '>' && *t != '&'; ++t ) {
+                ++n;
+            }
+
+            if( n > 0 ) {
+                if( fwrite( s, sizeof( char ), n, fp ) != n ) {
+                    bug( "Fwrite_XMLString: can't write string text." );
+                }
+                s += n;
+            }
+
+            if( *t == '\"' ) {
+                if( fputs( "&quot;", fp ) == EOF ) {
+                    bug( "Fwrite_XMLString: can't write string text." );
+                }
+                ++s;
+            } else if( *t == '\'' ) {
+                if( fputs( "&apos;", fp ) == EOF ) {
+                    bug( "Fwrite_XMLString: can't write string text." );
+                }
+                ++s;
+            } else if( *t == '<' ) {
+                if( fputs( "&lt;", fp ) == EOF ) {
+                    bug( "Fwrite_XMLString: can't write string text." );
+                }
+                ++s;
+            } else if( *t == '>' ) {
+                if( fputs( "&gt;", fp ) == EOF ) {
+                    bug( "Fwrite_XMLString: can't write string text." );
+                }
+                ++s;
+            } else if( *t == '&' ) {
+                if( fputs( "&amp;", fp ) == EOF ) {
+                    bug( "Fwrite_XMLString: can't write string text." );
+                }
+                ++s;
+            }
+        }
+    }
+
+    if( fputs( "\"", fp ) == EOF ) {
+        bug( "Fwrite_XMLString: can't write end-of-string delimiter." );
+    }
+}
+
+void fwrite_sqlstring( FILE *fp, const char *s )
+{
+    if( fputc( '\"', fp ) == EOF ) {
+        bug( "Fwrite_SQLString: can't write start-of-string delimiter." );
+    }
+
+    if( s ) {
+        while( *s ) {
+            size_t n = 0;
+            const char *t = s;
+
+            for( ; *t && *t != '\"' && *t != '\'' && *t != '\\' && *t != '%' && *t != '_'; ++t ) {
+                ++n;
+            }
+
+            if( n > 0 ) {
+                if( fwrite( s, sizeof( char ), n, fp ) != n ) {
+                    bug( "Fwrite_SQLString: can't write string text." );
+                }
+                s += n;
+            }
+
+            if( *t == '\"' ) {
+                if( fputs( "\\\"", fp ) == EOF ) {
+                    bug( "Fwrite_SQLString: can't write string text." );
+                }
+                ++s;
+            } else if( *t == '\'' ) {
+                if( fputs( "\\\'", fp ) == EOF ) {
+                    bug( "Fwrite_SQLString: can't write string text." );
+                }
+                ++s;
+            } else if( *t == '\\' ) {
+                if( fputs( "\\\\", fp ) == EOF ) {
+                    bug( "Fwrite_SQLString: can't write string text." );
+                }
+                ++s;
+            } else if( *t == '%' ) {
+                if( fputs( "\%", fp ) == EOF ) {
+                    bug( "Fwrite_SQLString: can't write string text." );
+                }
+                ++s;
+            } else if( *t == '_' ) {
+                if( fputs( "\_", fp ) == EOF ) {
+                    bug( "Fwrite_SQLString: can't write string text." );
+                }
+                ++s;
+            }
+        }
+    }
+
+    if( fputs( "\"", fp ) == EOF ) {
+        bug( "Fwrite_SQLString: can't write end-of-string delimiter." );
+    }
+}
+
 /* CHANGES */
 
 void do_changes( char_data* ch, const char *argument )

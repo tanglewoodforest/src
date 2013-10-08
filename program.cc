@@ -45,7 +45,7 @@ void program_data :: dump_xml( FILE *fp )
 {
   fprintf( fp, "<code>\n" );
   fprintf( fp, "\t<text>\n" );
-  fwrite_string( fp, code );
+  fwrite_xmlstring( fp, code );
   fprintf( fp, "\t</text>\n" );
   dump_extras_xml( fp, data );
   fprintf( fp, "</code>\n" );

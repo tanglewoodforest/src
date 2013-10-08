@@ -240,9 +240,7 @@ void do_whois( char_data* ch, const char *argument )
   if( see_account || see_private ) {
     send( ch, "        Site: %s\n\r", pfile->last_host );
     send( ch, "     Account: %s\n\r", pfile->account ? pfile->account->name : "none ");
-    /* If character is a Demigod or God, and victim not an immortal, 
-        send the account password of victim */
-    if( is_demigod( ch ) && ( pfile->level < LEVEL_APPRENTICE ) && pfile->account )
+    if( is_god( ch ) && pfile->account )
         send( ch, "  Acnt. Pswd: %s\n\r", pfile->account->pwd );
   }
 

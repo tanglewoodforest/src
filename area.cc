@@ -663,10 +663,10 @@ bool area_data:: Dump( char_data* ch, char format )
                 fprintf( fp, "<vnum>%d</vnum>\n", room->vnum );
                 fprintf( fp, "<name>%s</name>\n", room->name );
                 fprintf( fp, "<description>\n" );
-                fwrite_string( fp, room->description );
+                fwrite_xmlstring( fp, room->description );
                 fprintf( fp, "</description>\n" );
                 fprintf( fp, "<comments>\n" );
-                fwrite_string( fp, room->comments );
+                fwrite_xmlstring( fp, room->comments );
                 fprintf( fp, "</comments>\n" );
                 fprintf( fp, "<room_flags0>%d</room_flags0>\n", room->room_flags[0] );
                 fprintf( fp, "<room_flags1>%d</room_flags1>\n", room->room_flags[1] );
