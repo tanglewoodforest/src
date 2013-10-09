@@ -8,28 +8,35 @@
 #include <string>
 #include <algorithm>
 
-// Dodger - Initial implementation 8/25/2013 - I'm a windows programmer, so look out for memory or string problems
-
 typedef bool tag_func ( room_data* room );
 
 class dynamic_tag
 {
-    public:
-        const char*  tag;		
-        tag_func* func;
+public:
+    const char*  tag;       
+    tag_func* func;
 };
 
-bool is_day( room_data* room )
-{	
-    return weather.is_day( );
-}
+bool is_day( room_data* room ) { return weather.is_day( ); }
 
-bool is_night( room_data* room )
-{
-    return !weather.is_day( );
-}
+bool is_night( room_data* room ) { return !weather.is_day( ); }
 
 bool is_fullmoon( room_data* room )
+{   
+    if ( room == NULL )
+        return false;
+
+    if( room->is_indoors( ) || is_set( room->room_flags, RFLAG_UNDERGROUND ) )
+        return false;
+
+    if ( weather.moon_phase == 0 )
+        return true;
+    else
+        return false;
+
+}
+
+bool is_newmoon( room_data* room )
 {   
     if ( room == NULL )
         return false;
@@ -44,10 +51,7 @@ bool is_fullmoon( room_data* room )
 
 }
 
-bool is_true ( room_data* room)
-{
-    return true;
-}
+bool is_true ( room_data* room) { return true; }
 
 bool is_exit_open_north ( room_data* room )
 {
@@ -55,11 +59,11 @@ bool is_exit_open_north ( room_data* room )
         return false;
 
     for( int i = 0; i < room->exits; ++i ) 
-    {		
+    {       
         if ( room->exits[i]->direction == DIR_NORTH)
-        {			
+        {           
             if( !is_set( room->exits[i]->exit_info, EX_CLOSED ))
-            {				
+            {               
                 return true;
             }
         }
@@ -74,11 +78,11 @@ bool is_exit_open_east ( room_data* room )
         return false;
 
     for( int i = 0; i < room->exits; ++i ) 
-    {		
+    {       
         if ( room->exits[i]->direction == DIR_EAST)
-        {			
+        {           
             if( !is_set( room->exits[i]->exit_info, EX_CLOSED ))
-            {				
+            {               
                 return true;
             }
         }
@@ -93,11 +97,11 @@ bool is_exit_open_south ( room_data* room )
         return false;
 
     for( int i = 0; i < room->exits; ++i ) 
-    {		
+    {       
         if ( room->exits[i]->direction == DIR_SOUTH)
-        {			
+        {           
             if( !is_set( room->exits[i]->exit_info, EX_CLOSED ))
-            {				
+            {               
                 return true;
             }
         }
@@ -112,11 +116,11 @@ bool is_exit_open_west ( room_data* room )
         return false;
 
     for( int i = 0; i < room->exits; ++i ) 
-    {		
+    {       
         if ( room->exits[i]->direction == DIR_WEST)
-        {			
+        {           
             if( !is_set( room->exits[i]->exit_info, EX_CLOSED ))
-            {				
+            {               
                 return true;
             }
         }
@@ -131,11 +135,11 @@ bool is_exit_closed_north ( room_data* room )
         return false;
 
     for( int i = 0; i < room->exits; ++i ) 
-    {		
+    {       
         if ( room->exits[i]->direction == DIR_NORTH)
-        {			
+        {           
             if( is_set( room->exits[i]->exit_info, EX_CLOSED ))
-            {				
+            {               
                 return true;
             }
         }
@@ -150,11 +154,11 @@ bool is_exit_closed_east ( room_data* room )
         return false;
 
     for( int i = 0; i < room->exits; ++i ) 
-    {		
+    {       
         if ( room->exits[i]->direction == DIR_EAST)
-        {			
+        {           
             if( is_set( room->exits[i]->exit_info, EX_CLOSED ))
-            {				
+            {               
                 return true;
             }
         }
@@ -169,11 +173,11 @@ bool is_exit_closed_south ( room_data* room )
         return false;
 
     for( int i = 0; i < room->exits; ++i ) 
-    {		
+    {       
         if ( room->exits[i]->direction == DIR_SOUTH)
-        {			
+        {           
             if( is_set( room->exits[i]->exit_info, EX_CLOSED ))
-            {				
+            {               
                 return true;
             }
         }
@@ -188,11 +192,11 @@ bool is_exit_closed_west ( room_data* room )
         return false;
 
     for( int i = 0; i < room->exits; ++i ) 
-    {		
+    {       
         if ( room->exits[i]->direction == DIR_WEST)
-        {			
+        {           
             if( is_set( room->exits[i]->exit_info, EX_CLOSED ))
-            {				
+            {               
                 return true;
             }
         }
@@ -201,27 +205,63 @@ bool is_exit_closed_west ( room_data* room )
     return false;
 }
 
-bool is_winter ( room_data* room )
+bool is_winter ( room_data* room ) { return weather.month >= 12 && weather.month < 3; }
+
+bool is_spring ( room_data* room ) { return weather.month >= 3 && weather.month < 6; }
+
+bool is_summer ( room_data* room ) { return weather.month >= 6 && weather.month < 9; }
+
+bool is_autumn ( room_data* room ) { return weather.month >= 9 && weather.month < 12; }
+
+bool is_reset0 ( room_data* room )
 {
-	return weather.month > 10 && weather.month < 3;
+    if( is_set( room->room_flags, RFLAG_RESET0 ) )
+        return true;
+
+    return false;
 }
 
-bool is_spring ( room_data* room )
+bool is_status0 ( room_data* room )
 {
-	return weather.month > 2 && weather.month < 6;
+    if( is_set( room->room_flags, RFLAG_STATUS0 ) )
+        return true;
+
+    return false;
 }
 
-bool is_summer ( room_data* room )
+bool is_reset1 ( room_data* room )
 {
-	return weather.month > 5 && weather.month < 9;
+    if( is_set( room->room_flags, RFLAG_RESET1 ) )
+        return true;
+
+    return false;
 }
 
-bool is_autumn ( room_data* room )
+bool is_status1 ( room_data* room )
 {
-	return weather.month > 8 && weather.month < 11;
+    if( is_set( room->room_flags, RFLAG_STATUS1 ) )
+        return true;
+
+    return false;
 }
 
-#define MAX_TAG      16
+bool is_reset2 ( room_data* room )
+{
+    if( is_set( room->room_flags, RFLAG_RESET2 ) )
+        return true;
+
+    return false;
+}
+
+bool is_status2 ( room_data* room )
+{
+    if( is_set( room->room_flags, RFLAG_STATUS2 ) )
+        return true;
+
+    return false;
+}
+
+#define MAX_TAG      22
 const dynamic_tag tag_index [] = 
 {
     { "day", is_day }, 
@@ -239,7 +279,13 @@ const dynamic_tag tag_index [] =
     { "spring", is_spring },
     { "summer", is_summer },
     { "autumn", is_autumn },
-    { "fullmoon", is_fullmoon }
+    { "fullmoon", is_fullmoon },
+    { "reset0", is_reset0 },
+    { "status0", is_status0 },
+    { "reset1", is_reset1 },
+    { "status1", is_status1 },
+    { "reset2", is_reset2 },
+    { "status2", is_status2 }
 };
 
 /// Given the description and tag, parse!
@@ -250,12 +296,12 @@ std::string ParseTag(const char* tag, std::string description, bool remove = fal
 
     sprintf(start, "<%s>", tag);
     sprintf(end, "</%s>", tag);
-    
+
     std::string str (description);
 
     int is = str.find(start);
     int ie = str.find(end);
-    
+
     if (is == -1 || ie == -1)
         return description;
 
@@ -264,7 +310,7 @@ std::string ParseTag(const char* tag, std::string description, bool remove = fal
     std::string data = str.substr(toStart, ie - toStart);
     std::string before = str.substr(0, is);
     std::string after = str.substr(ie + 3 + strlen( tag ));
-        
+
     std::string newstring;
 
     if ( remove )
@@ -283,15 +329,15 @@ std::string ParseTag(const char* tag, std::string description, bool remove = fal
 
 /// Given a provided description, parse any existing dynamic tags
 std::string GetDescription( const char *description, room_data* room ) 
-{	
+{   
     std::string new_description(description);
-    
+
     for (int i = 0; i < MAX_TAG; i++ )
     {         
         if ( tag_index[i].func( room ) )
             new_description = ParseTag( tag_index[i].tag, new_description );
         else
-            new_description = ParseTag( tag_index[i].tag, new_description, true );			
+            new_description = ParseTag( tag_index[i].tag, new_description, true );          
     }
 
     return new_description;
@@ -323,7 +369,7 @@ std::string replaceinString(std::string str, std::string tofind, std::string tor
     size_t position = 0;
     for ( position = str.find(tofind); position != std::string::npos; position = str.find(tofind,position) )
     {
-            str.replace(position, 1, toreplace);
+        str.replace(position, 1, toreplace);
     }
     return(str);
 }
@@ -344,17 +390,18 @@ std::string InnerTrim(std::string value)
 
 /// A way to provide formatted output without modifying the objects description
 std::string FormatOutput ( char *description, int columns )
-{	
+{   
     std::string str ( description );
     std::string clean (str);
-        
-	// Remove all crlf
+
+// Remove all crlf
     clean = replaceinString(str, "\n", " ");
     clean = replaceinString(clean, "\r", " ");
 
-	// Remove multiple spaces
+// Remove multiple spaces
     clean = InnerTrim(clean);
 
     return WordWrap( clean, columns );   
 }
+
 
