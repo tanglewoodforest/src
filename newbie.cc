@@ -1,6 +1,7 @@
 #include <ctype.h>
 #include <sys/types.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <syslog.h>
 #include "define.h"
 #include "struct.h"
@@ -895,6 +896,12 @@ void new_player( player_data* pl )
     player_log( pl, "Created on account \"%s\" as \"%s\".",
 		pl->pcdata->pfile->account->name,
 		pl->descr->name );
+    char *emailbody = static_string( );
+    char *emailcmd = static_string( );
+    snprintf( emailbody, MAX_INPUT_LENGTH, "New character %s created on account %s from %s.", pl->descr->name, pl->pcdata->pfile->account->name, pl->pcdata->pfile->account->email );
+    snprintf( emailcmd, MAX_INPUT_LENGTH, "(echo \"%s\" | /usr/sbin/sendmail -i -F\"%s\" -r\"%s\" \"%s\";)", emailbody, "TWF System", "mud@tanglewoodforest.tk", "twfmud@gmail.com" );
+    system( emailcmd );
+
   }
 }
 

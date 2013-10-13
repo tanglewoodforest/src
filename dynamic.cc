@@ -261,7 +261,7 @@ bool is_status2 ( room_data* room )
     return false;
 }
 
-#define MAX_TAG      22
+#define MAX_TAG      23
 const dynamic_tag tag_index [] = 
 {
     { "day", is_day }, 
@@ -280,6 +280,7 @@ const dynamic_tag tag_index [] =
     { "summer", is_summer },
     { "autumn", is_autumn },
     { "fullmoon", is_fullmoon },
+    { "newmoon", is_newmoon },
     { "reset0", is_reset0 },
     { "status0", is_status0 },
     { "reset1", is_reset1 },
