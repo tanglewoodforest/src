@@ -703,7 +703,7 @@ bool area_data:: Dump( char_data* ch, char format )
                 "(echo \"The MUD has issued you a file. See attachment.\" | /usr/bin/mail -s \"TWFMUD File Export: %s\" -a \"/home/twf/dumps/%s\" -r \"mud@tanglewoodforest.tk (Tanglewood Forest MUD)\" \"%s\") &",
                 tmp, tmp, ch->pcdata->pfile->account->email
             );
-            system( email );
+            if ( system( email ) ) { bug( "System Console Command Failed:\n\r%s", email ); }
 
             sprintf( outLog, "Saving XML file to: /home/twf/dumps/%s.\nEmailed command:\n%s\n\n", tmp, email );
             page( ch, outLog );

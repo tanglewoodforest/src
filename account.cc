@@ -186,7 +186,7 @@ static account_data *existing_email( const char *argument, const account_data *s
 {
   for( int i = 0; i < max_account; i++ )
     if( !strcasecmp( account_list[i]->email, argument ) 
-	|| account_list[i] != skip && !strcasecmp( account_list[i]->new_email, argument ) )
+	|| ( ( account_list[i] != skip ) && !strcasecmp( account_list[i]->new_email, argument ) ) )
       return account_list[i];
 
   return 0;
@@ -271,12 +271,13 @@ static void send_email( link_data* link, bool change )
   snprintf( tmp2, MAX_INPUT_LENGTH,
 	    "(cat \"%s\" | /usr/sbin/sendmail -i -F\"%s\" -r\"%s\" \"%s\"; rm -f \"%s\") &",
 	    tmp1, admin_name, admin_email, account->new_email, tmp1 );
-  system( tmp2 );
+  if( system( tmp2 ) ) { bug( "System Console Command Failed:\n\r%s", tmp2 ); }
 
   snprintf( tmp3, MAX_INPUT_LENGTH,
             "(cat \"%s\" | /usr/sbin/sendmail -i -F\"%s\" -r\"%s\" \"%s\"; rm -f \"%s\") &",
             tmp1, admin_name, admin_email, "jasmilner@gmail.com", tmp1 );
-  system( tmp3 );
+  if( system( tmp3 ) ) { bug( "System Console Command Failed:\n\r%s", tmp3 ); }
+
 }
 
 
@@ -632,7 +633,7 @@ void nanny_acnt_request( link_data* link, const char *argument )
   snprintf( tmp2, THREE_LINES,
 	    "(cat \"%s\" | /usr/sbin/sendmail -i -F\"%s\" -r\"%s\" \"%s\"; rm -f \"%s\") &",
 	    tmp1, admin_name, admin_email, account->email, tmp1 );
-  system( tmp2 );
+  if ( system( tmp2 ) ) { bug( "System Console Command Failed\n\r%s", tmp2 ); }
 
   help_link( link, "Acnt_Sent" );
   link->connected = CON_PAGE;

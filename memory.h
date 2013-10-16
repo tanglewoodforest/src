@@ -67,9 +67,7 @@ void   extract            ( wizard_data*, int, const char* );
 player_data *edit_lock    ( player_data*, void*, int, const char*, bool = false );
 
 
-inline int offset( void* pntr1, void* pntr2 ) {
-  return( (int)( pntr1 ) - (int)( pntr2 ) );
-}
+inline long offset( void* pntr1, void* pntr2 ) { return( (long)pntr1 - (long)pntr2 ); }
 
 
 /*

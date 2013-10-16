@@ -205,13 +205,13 @@ bool is_exit_closed_west ( room_data* room )
     return false;
 }
 
-bool is_winter ( room_data* room ) { return weather.month >= 12 && weather.month < 3; }
+bool is_winter ( room_data* room ) { return weather.month >= 11 || weather.month < 2; }
 
-bool is_spring ( room_data* room ) { return weather.month >= 3 && weather.month < 6; }
+bool is_spring ( room_data* room ) { return weather.month >= 2 && weather.month < 5; }
 
-bool is_summer ( room_data* room ) { return weather.month >= 6 && weather.month < 9; }
+bool is_summer ( room_data* room ) { return weather.month >= 5 && weather.month < 8; }
 
-bool is_autumn ( room_data* room ) { return weather.month >= 9 && weather.month < 12; }
+bool is_autumn ( room_data* room ) { return weather.month >= 8 && weather.month < 11; }
 
 bool is_reset0 ( room_data* room )
 {
