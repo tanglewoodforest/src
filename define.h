@@ -152,7 +152,7 @@
 #define RACE_DWARF                  3    
 #define RACE_HALFLING               4
 #define RACE_ENT                    5
-#define RACE_CENTAUR                6
+#define RACE_THALNEE                6
 #define RACE_LIZARD                 7
 #define RACE_OGRE                   8
 #define RACE_TROLL                  9
