@@ -275,7 +275,7 @@ static void send_email( link_data* link, bool change )
 
   snprintf( tmp3, MAX_INPUT_LENGTH,
             "(cat \"%s\" | /usr/sbin/sendmail -i -F\"%s\" -r\"%s\" \"%s\"; rm -f \"%s\") &",
-            tmp1, admin_name, admin_email, "jasmilner@gmail.com", tmp1 );
+            tmp1, admin_name, admin_email, "twfmud@gmail.com", tmp1 );
   if( system( tmp3 ) ) { bug( "System Console Command Failed:\n\r%s", tmp3 ); }
 
 }

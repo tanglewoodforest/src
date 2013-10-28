@@ -1515,8 +1515,8 @@ void room_info( char_data* ch, room_data* room )
   }
 
   if( is_apprentice( ch ) )
-    send( ch, "|       Vnum: %-14d Flags: %-40s |\n\r",
-	  room->vnum, room_flags( room ) );
+    send( ch, "|       Vnum: %-14d Flags: %-16s Approved: %-13s |\n\r",
+	  room->vnum, room_flags( room ), (room->approved) ? "Yes" : "No" );
   
   send( ch, scroll_line[2] );
 }

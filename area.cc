@@ -524,8 +524,10 @@ bool area_data:: Save( bool forced )
     fwrite_string( fp, room->comments ); 
     //    fprintf( fp, "%d %d\n",
     //	     room->room_flags, room->temp_flags );
-    fprintf( fp, "%d %d ", room->room_flags[0], room->room_flags[1] );
-    fprintf( fp, "%d %d 0\n", room->sector_type, room->size );
+    fprintf( fp, "%d %d %d %d \n", room->room_flags[0], room->room_flags[1], room->sector_type, room->size );
+    fprintf( fp, "%d\n", room->approved );
+    fwrite_string( fp, room->approver );
+    fprintf( fp, "0\n" );
     
     for( int i = 0; i < room->exits; i++ ) {
       exit_data *exit = (exit_data *) room->exits[i];
@@ -698,7 +700,6 @@ bool area_data:: Dump( char_data* ch, char format )
             fprintf( fp, "</rooms>\n" );
             fprintf( fp, "</area>\n" );
 
-            // echo -e "This is the body" | /usr/bin/mutt -a "/home/twf/dumps/new_pennan2.xml" -s "Dump file created" -- jasmilner@gmail.com
             snprintf( email, MAX_INPUT_LENGTH,
                 "(echo \"The MUD has issued you a file. See attachment.\" | /usr/bin/mail -s \"TWFMUD File Export: %s\" -a \"/home/twf/dumps/%s\" -r \"mud@tanglewoodforest.tk (Tanglewood Forest MUD)\" \"%s\") &",
                 tmp, tmp, ch->pcdata->pfile->account->email
@@ -1102,122 +1103,134 @@ void do_areas( char_data* ch, const char *argument )
   send( ch, "No area matching that name found.\n\r" );
 }
 
-
 void do_roomlist( char_data* ch, const char *argument )
 {
-  room_data *room;
-  if( !( room = Room( ch->array->where ) ) ) {
-    send( ch, "You aren't in a room.\n\r" );
-    return;
-  }
-
-  int flags;
-  if( !get_flags( ch, argument, &flags, "cCmMsS", "roomlist" ) )
-    return;
-
-  in_character = false;
-
-  bool noncomments = is_set( flags, 1 );
-  bool comments = is_set( flags, 0 ) || noncomments;
-  bool nonmobs = is_set( flags, 3 );
-  bool mobs = is_set( flags, 2 ) || nonmobs;
-  bool nonspelling = is_set( flags, 5 );
-  bool spelling = is_set( flags, 4 ) || nonspelling;
-  
-  page_underlined( ch, "Vnum     Name of Room\n\r" );
-
-  for( room_data *room2 = room->area->room_first; room2; room2 = room2->next ) {
-    bool found = false;
-    bool stuff = false;
-
-    if( ( !noncomments && !nonmobs && !nonspelling ) || ( *room2->Comments( ) && comments ) ) {
-      found = true;
-      page( ch, "%-6d   ", room2->vnum );
-      page_color( ch, COLOR_ROOM_NAME, "%s\n\r", room2->name );
-      if( comments ) {
-	if( *room2->Comments( ) ) {
-	  stuff = true;
-	  page( ch, room2->Comments( ) ); 
-	}
-      }
+    room_data *room;
+    if( !( room = Room( ch->array->where ) ) ) {
+        send( ch, "You aren't in a room.\n\r" );
+        return;
     }
 
-    if( mobs ) {
-      select( room2->contents, ch );
-      for( int i = 0; i < room2->contents; ++i ) {
-	if( !character( room2->contents[i] )
-	    || !room2->contents[i]->Seen( ch ) ) {
-	  room2->contents[i]->Select( 0 ); 
-	}
-      }
-      rehash( ch, room2->contents, true );
-      for( int i = 0; i < room2->contents; ++i ) {
-	char_data *rch = character( room2->contents[i] );
-	if( rch && rch->Shown( ) > 0 ) {
-	  if( !found ) {
-	    page( ch, "%-6d   ", room2->vnum );
-	    page_color( ch, COLOR_ROOM_NAME, "%s\n\r", room2->name );
-	    found = true;
-	  } else if( comments && *room2->Comments( ) ) {
-	    page( ch, "\n\r" );
-	  }
-	  stuff = true;
-	  if( player( rch ) ) {
-	    page( ch, "  -> player %s\n\r",
-		  rch->descr->name );
-	  } else if( rch->Shown( ) > 1 ) {
-	    page( ch, "  -> #%d, %s (x%d)\n\r",
-		  rch->species->vnum,
-		  rch->Seen_Name( ch, 1, false ),
-		  rch->Shown( ) );
-	  } else {
-	    page( ch, "  -> #%d, %s\n\r",
-		  rch->species->vnum,
-		  rch->Seen_Name( ch, 1, false ) );
-	  }
-	}
-      }
-    }
+    int flags;
+    if( !get_flags( ch, argument, &flags, "cCmMsSaA", "roomlist" ) )
+        return;
 
-    if( spelling ) {
-      if( const char *s = spell( ch, room2->name, "Name: " ) ) {
-	if( !found ) {
-	  found = true;
-	  page( ch, "%-6d   ", room2->vnum );
-	  page_color( ch, COLOR_ROOM_NAME, "%s\n\r", room2->name );
-	}
-	stuff = true;
-	page( ch, s );
-      }
-      if( const char *s = spell( ch, room2->Description( ) ) ) {
-	if( !found ) {
-	  found = true;
-	  page( ch, "%-6d   ", room2->vnum );
-	  page_color( ch, COLOR_ROOM_NAME, "%s\n\r", room2->name );
-	}
-	stuff = true;
-	page( ch, "Description:\n\r" );
-	page( ch, s );
-      }
-      extra_array& extras = room2->Extra_Descr( );
-      for( int i = 0; i < extras; ++i ) {
-	extra_data *extra = extras[i];
-	if( const char *s = spell( ch, extra->text ) ) {
-	  if( !found ) {
-	    found = true;
-	    page( ch, "%-6d   ", room2->vnum );
-	    page_color( ch, COLOR_ROOM_NAME, "%s\n\r", room2->name );
-	  }
-	  stuff = true;
-	  page( ch, "[%s]\n\r", extra->keyword );
-	  page( ch, s );
-	}
-      }
-    }
+    in_character = false;
 
-    if( stuff ) {
-      page( ch, "\n\r" );
-      //      page( ch, "%37s-----\n\r", "" );
+    bool noncomments = is_set( flags, 1 );
+    bool comments = is_set( flags, 0 ) || noncomments;
+    bool nonmobs = is_set( flags, 3 );
+    bool mobs = is_set( flags, 2 ) || nonmobs;
+    bool nonspelling = is_set( flags, 5 );
+    bool spelling = is_set( flags, 4 ) || nonspelling;
+    bool nonapproved = is_set( flags, 7 );
+    bool approved = is_set( flags, 6 );
+
+
+
+    if( approved || nonapproved ) {
+        page_underlined( ch, "Approved     VNUM   Name of Room\n\r" );
+        for( room_data *room2 = room->area->room_first; room2; room2 = room2->next ) {
+            if( approved ){
+                if( room2->approved ) {
+                    page( ch, "%s%-12s%s %-6d %s\n\r", color_code( ch, COLOR_BOLD_GREEN ), room2->approver, normal( ch ), room2->vnum, room2->name );
+                }
+                else {
+                    page( ch, "%s%-12s%s %-6d %s\n\r", color_code( ch, COLOR_BOLD_RED ), "Unapproved", normal( ch ), room2->vnum, room2->name );
+                }
+            } else {
+                if( !room2->approved ) {
+                    page( ch, "%s%-12s%s %-6d %s\n\r", color_code( ch, COLOR_BOLD_RED ), "Unapproved", normal( ch ), room2->vnum, room2->name );
+                }
+            }
+        }
+    } else {
+        page_underlined( ch, "Vnum     Name of Room\n\r" );
+        for( room_data *room2 = room->area->room_first; room2; room2 = room2->next ) {
+            bool found = false;
+            bool stuff = false;
+
+            if( ( !noncomments && !nonmobs && !nonspelling ) || ( *room2->Comments( ) && comments ) ) {
+                found = true;
+                page( ch, "%-6d   ", room2->vnum );
+                page_color( ch, COLOR_ROOM_NAME, "%s\n\r", room2->name );
+                if( comments ) {
+                    if( *room2->Comments( ) ) {
+                        stuff = true;
+                        page( ch, room2->Comments( ) );
+                    }
+                }
+            }
+
+            if( mobs ) {
+                select( room2->contents, ch );
+                for( int i = 0; i < room2->contents; ++i ) {
+                    if( !character( room2->contents[i] ) || !room2->contents[i]->Seen( ch ) ) {
+                        room2->contents[i]->Select( 0 );
+                    }
+                }
+                rehash( ch, room2->contents, true );
+                for( int i = 0; i < room2->contents; ++i ) {
+                    char_data *rch = character( room2->contents[i] );
+                    if( rch && rch->Shown( ) > 0 ) {
+                        if( !found ) {
+                            page( ch, "%-6d   ", room2->vnum );
+                            page_color( ch, COLOR_ROOM_NAME, "%s\n\r", room2->name );
+                            found = true;
+                        } else if( comments && *room2->Comments( ) ) {
+                            page( ch, "\n\r" );
+                        }
+                        stuff = true;
+                        if( player( rch ) ) {
+                            page( ch, "  -> player %s\n\r", rch->descr->name );
+                        } else if( rch->Shown( ) > 1 ) {
+                            page( ch, "  -> #%d, %s (x%d)\n\r", rch->species->vnum, rch->Seen_Name( ch, 1, false ), rch->Shown( ) );
+                        } else {
+                            page( ch, "  -> #%d, %s\n\r", rch->species->vnum, rch->Seen_Name( ch, 1, false ) );
+                        }
+                    }
+                }
+            }
+
+            if( spelling ) {
+                if( const char *s = spell( ch, room2->name, "Name: " ) ) {
+                    if( !found ) {
+                        found = true;
+                        page( ch, "%-6d   ", room2->vnum );
+                        page_color( ch, COLOR_ROOM_NAME, "%s\n\r", room2->name );
+                    }
+                    stuff = true;
+                    page( ch, s );
+                }
+                if( const char *s = spell( ch, room2->Description( ) ) ) {
+                    if( !found ) {
+                        found = true;
+                        page( ch, "%-6d   ", room2->vnum );
+                        page_color( ch, COLOR_ROOM_NAME, "%s\n\r", room2->name );
+                    }
+                    stuff = true;
+                    page( ch, "Description:\n\r" );
+                    page( ch, s );
+                }
+                extra_array& extras = room2->Extra_Descr( );
+                for( int i = 0; i < extras; ++i ) {
+                    extra_data *extra = extras[i];
+                    if( const char *s = spell( ch, extra->text ) ) {
+                        if( !found ) {
+                            found = true;
+                            page( ch, "%-6d   ", room2->vnum );
+                            page_color( ch, COLOR_ROOM_NAME, "%s\n\r", room2->name );
+                        }
+                        stuff = true;
+                        page( ch, "[%s]\n\r", extra->keyword );
+                        page( ch, s );
+                    }
+                }
+            }
+            if( stuff ) {
+                page( ch, "\n\r" );
+            }
+        }
     }
-  }
 }
+

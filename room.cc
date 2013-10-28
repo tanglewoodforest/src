@@ -9,21 +9,15 @@
 
 
 const char *rflag_name[ MAX_RFLAG ] = {
-  "Lit", "Safe", "Indoors", "No.Mob",
-  "No.Recall", "No.Magic", "No.Autoscan", "Altar", "Altar.Good",
-  "Altar.Neutral", "Altar.Evil", "Bank", "Shop", "Pet.Shop", "Office",
-  "No.Pray", "Save.Items", "Underground", "Auction.House",
-  "Reset0", "Reset1", "Reset2", "Status0", "Status1", "Status2",
-  "No.Mount", "Arena", "No.Rest", "No.Pkill",
-  "Altar.Law", "Altar.Neutral2", "Altar.Chaos" };
+  "Lit", "Safe", "Indoors", "No.Mob", "No.Recall", "No.Magic", "No.Autoscan", "Altar",
+  "Altar.Good", "Altar.Neutral", "Altar.Evil", "Bank", "Shop", "Pet.Shop", "Office", "No.Pray",
+  "Save.Items", "Underground", "Auction.House", "Reset0", "Reset1", "Reset2", "Status0", "Status1",
+  "Status2", "No.Mount", "Arena", "No.Rest", "No.Pkill", "Altar.Law", "Altar.Neutral2", "Altar.Chaos"
+};
 
-const char *location_name[ MAX_LOCATION ] =
-{ "!Indoors", "!Outside",
-  "Sunlight", "Full Moon",
-  "Forest", "!Underwater",
-  "!Mounted", "!Fighting",
-  "Underground", "Aboveground",
-  "Perform"
+const char *location_name[ MAX_LOCATION ] = {
+  "!Indoors", "!Outside", "Sunlight", "Full Moon", "Forest", "!Underwater", "!Mounted", "!Fighting",
+  "Underground", "Aboveground", "Perform"
 };
 
 int max_location = MAX_LOCATION;
@@ -79,7 +73,8 @@ Room_Data::Room_Data( area_data *a, int vnum )
     vnum(vnum),// room_flags(0), temp_flags(0),
     sector_type(0), distance(INT_MAX),
     size(SIZE_HORSE),
-    name(empty_string), description(empty_string), comments(empty_string)
+    name(empty_string), description(empty_string), comments(empty_string),
+    approved(0), approver(empty_string)
 {
   record_new( sizeof( room_data ), MEM_ROOM );
   valid = ROOM_DATA;
@@ -300,12 +295,10 @@ void area_data :: load_rooms( FILE* fp )
     char letter = fread_letter( fp );
 
     if( letter != '#' ) 
-      panic( "Load_rooms: # not found." );
+      panic( "Load_rooms: # not found.\n\rLast successful VNUM: %d\n\r", vnum );
 
     if( ( vnum = fread_number( fp ) ) == 0 )
        break;
-
-    echo( "%d ", vnum );
 
     if( get_room_index( vnum ) ) 
       panic( "Load_rooms: vnum %d duplicated.", vnum );
@@ -319,6 +312,8 @@ void area_data :: load_rooms( FILE* fp )
     room->room_flags[1] = fread_number( fp );
     room->sector_type  = fread_number( fp );
     room->size         = fread_number( fp );
+    room->approved     = fread_number( fp );
+    room->approver     = fread_string( fp, MEM_ROOM );
     room->reset        = 0;
 
     if( room->size < 0 || room->size >= MAX_SIZE )
@@ -327,7 +322,7 @@ void area_data :: load_rooms( FILE* fp )
     const int z = fread_number( fp );
 
     if( z != 0 )
-      panic( "Load_rooms: corrupt file." );
+      panic( "Load_rooms: corrupt file.\n\rLast room read: %d\n\r", vnum );
 
     read_exits( fp, room, vnum );
     read_extras( fp, room->extra_descr );
@@ -566,6 +561,45 @@ const char* room_name( room_data* room )
  *   ONLINE ROOM COMMANDS
  */
 
+void do_rapprove( char_data* ch, const char *argument )
+{
+    area_data* area  = ch->in_room->area;
+    char       buf   [ MAX_INPUT_LENGTH ];
+    char       buf1  [ MAX_INPUT_LENGTH ];
+
+    if( !strcasecmp( argument, "all" ) ) {
+        if( !has_permission( ch, PERM_WRITE_ALL, true ) )
+            return;
+
+        // Set all rooms in area to approved at once
+        for( room_data *room = area->room_first; room; room = room->next ) {
+            room->approved = 1;
+            room->approver = ch->descr->name;
+        }
+
+        send( ch, "All rooms approved.\n\r" );
+        snprintf( buf, MAX_INPUT_LENGTH, "All rooms in %s approved by %s.", area->name, ch->descr->name );
+        snprintf( buf1, MAX_INPUT_LENGTH, "Area %d approved.", area->name );
+        info( LEVEL_SPIRIT, buf1, invis_level( ch ), buf, IFLAG_WRITES );
+        return;
+    }
+
+    if( !*argument ) {
+        if( ch->in_room->approved ){
+            ch->in_room->approved = 0;
+            ch->in_room->approver = "";
+            send( ch, "Room no longer approved.\n\r" );
+        } else {
+            ch->in_room->approved = 1;
+            ch->in_room->approver = ch->descr->name;
+            send( ch, "Room approved.\n\r" );
+        }
+
+        return;
+    }
+
+    send( ch, "Syntax: rapprove [all]\n\r" );
+}
 
 void do_rbug( char_data* ch, const char *argument ) 
 {
@@ -648,7 +682,6 @@ void do_rflag( char_data* ch, const char *argument )
   
   send( ch, "- Set on Area -\n\r" );
 }
-
 
 void do_rset( char_data* ch, const char *argument )
 {
@@ -823,13 +856,14 @@ void do_rstat( char_data* ch, const char *argument )
 
   page( ch, "        Name: " );
   page_color( ch, COLOR_ROOM_NAME, "%s\n\r", room->name );
-  page( ch, "        Vnum: %d\n\r", room->vnum );
-  page( ch, "       Light: %-14d Weight: %.2f\n\r",
-	room->Light(), (double)room->contents.weight/100.0 );
-  page( ch, " Temperature: %-12.1f Humidity: %.1f\n\r",
-	room->temperature( ), room->humidity( ) );
-  page( ch, "     Terrain: %-16s Size: %-13s\n\r",
-	terrain_table[ room->sector_type ].name, size_name[room->size] );
+  page( ch, "        Vnum: %-16d Weight: %.2f\n\r", room->vnum, (double)room->contents.weight/100.0 );
+  page( ch, "       Light: %-14d Humidity: %.1f\n\r", room->Light(), room->humidity( ) );
+  page( ch, " Temperature: %-18.1f Size: %s\n\r", room->temperature( ), size_name[room->size] );
+  page( ch, "     Terrain: %-14s Approved: %-3s %s %s\n\r", 
+    terrain_table[ room->sector_type ].name,
+    (room->approved) ? "Yes" : "No",
+    (room->approved) ? "by:" : "",
+    (room->approved) ? room->approver : "" );
   
   strcpy( tmp, "       Exits:" );
   for( int i = 0; i < room->exits; i++ ) {

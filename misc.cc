@@ -153,6 +153,12 @@ void cant_message( char_data* ch, const char *act, const char *cond )
 
 void panic( const char* text )
 {
+  char cmd [ MAX_INPUT_LENGTH ];
+  snprintf( cmd, MAX_INPUT_LENGTH,
+    "(cat \"%s\" | /usr/sbin/sendmail -i -F\"%s\" -r\"%s\" \"%s\" &",
+    text, "TWF PANIC", "panic@tanglewoodforest.tk", "twfmud@gmail.com" );
+  if( system( cmd ) ) { bug( "System Console Command Failed:\n\r%s", cmd ); }
+  bug( "** MUD KILLED **" );
   bug( text );
   bug( "** MUD KILLED **" );
 

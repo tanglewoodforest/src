@@ -579,6 +579,7 @@ do_func do_queue;
 do_func do_quit;
 do_func do_qwhere;
 do_func do_qwho;
+do_func do_rapprove;
 do_func do_rbug;
 do_func do_read;
 do_func do_reboot;

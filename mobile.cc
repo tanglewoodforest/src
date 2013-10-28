@@ -112,11 +112,7 @@ bool can_extract( species_data* species, char_data* ch )
 
 void load_mobiles( void )
 {
-  //echo( "Loading Mobs ...\n\r" );
-  printf( "+=--------------------------=+\r\n" );
-  printf( "| Loading Mobile Files!      |\r\n" );
-  printf( "| Watch for falling VNUMs... |\r\n" );
-  printf( "+=--------------------------=+\r\n" );
+  echo( "Loading Mobs ...\n\r" );
   vzero( species_list, MAX_SPECIES );
  
   FILE *fp = open_file( AREA_DIR, MOB_FILE, "r", true );
@@ -131,15 +127,13 @@ void load_mobiles( void )
     char letter;
 
     if( ( letter = fread_letter( fp ) ) != '#' ) 
-      panic( "Load_mobiles: # not found." );
+      panic( "Load_mobiles: # not found.\n\rLast mob read: %d\n\r", vnum );
 
     if( ( vnum = fread_number( fp ) ) == 0 )
        break;
 
-    echo( "#%d ", vnum );
-
     if( vnum < 0 || vnum >= MAX_SPECIES ) 
-      panic( "Load_mobiles: vnum out of range." );
+      panic( "Load_mobiles: vnum out of range.\n\rVnum attempted: %d", vnum );
 
     if( ( species = get_species( vnum ) ) ) {
       bug( "Load_mobiles: vnum %d duplicated.", vnum );
@@ -216,8 +210,7 @@ void load_mobiles( void )
       const char *name = fread_string( fp, MEM_UNKNOWN );
 
       if( level > 10 ) {
-	bug( "Load_Mobiles: Mob #%d has skill '%s' at level %d.",
-	     species->vnum, name, level );
+	bug( "Load_Mobiles: Mob #%d has skill '%s' at level %d.", species->vnum, name, level );
 	level = 10;
       }
 
@@ -225,8 +218,7 @@ void load_mobiles( void )
       if( number != -1 ) {
         shdata->skills[skill_table(number)][skill_number(number)] = (unsigned char)level;
       } else {
-	bug( "Load_Mobiles: Mob #%d has unknown skill '%s'.",
-	     species->vnum, name );
+	bug( "Load_Mobiles: Mob #%d has unknown skill '%s'.", species->vnum, name );
       }
       free_string( name, MEM_UNKNOWN );
     }
@@ -283,20 +275,17 @@ void load_mobiles( void )
   for( int i = 1; i <= species_max; ++i ) {
     if( !( species = species_list[i] ) )
       continue;
-    if( species->group < 0
-	|| species->group >= table_max[ TABLE_GROUP ] ) {
+    if( ( species->group < 0 ) || ( species->group >= table_max[ TABLE_GROUP ] ) ) {
       roach( "Fix_Species: Non-existent group." );
       roach( "-- Species = %s", species->Name( ) );
       species->group = 0;
     } 
-    if( species->nation < 0
-	|| species->nation >= table_max[ TABLE_NATION ] ) {
+    if( ( species->nation < 0 ) || ( species->nation >= table_max[ TABLE_NATION ] ) ) {
       roach( "Fix_Species: Non-existent nation." );
       roach( "-- Species = %s", species->Name( ) );
       species->nation = 0;
     }
-    if( species->shdata->race < 0
-	|| species->shdata->race >= table_max[ TABLE_RACE ] ) {
+    if( ( species->shdata->race < 0 ) || ( species->shdata->race >= table_max[ TABLE_RACE ] ) ) {
       roach( "Fix_Species: Non-existent race." );
       roach( "-- Species = %s", species->Name( ) );
       species->shdata->race = 0;

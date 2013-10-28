@@ -867,11 +867,7 @@ void load_objects( void )
   char              letter;
   int                 vnum;
 
-  //echo( "Loading Objects ...\n\r" );
-  printf( "+=--------------------------=+\r\n" );
-  printf( "| Loading Object Files!      |\r\n" );
-  printf( "| Watch for falling VNUMs... |\r\n" );
-  printf( "+=--------------------------=+\r\n" );
+  echo( "Loading Objects ...\n\r" );
   vzero( obj_index_list, MAX_OBJ_INDEX );
 
   FILE *fp = open_file( AREA_DIR, OBJECT_FILE, "r", true );
@@ -883,15 +879,13 @@ void load_objects( void )
     letter = fread_letter( fp );
 
     if( letter != '#' ) 
-      panic( "Load_objects: # not found." );
+      panic( "Load_objects: # not found.\n\rLast read object: %d", vnum );
 
     if( ( vnum = fread_number( fp ) ) == 0 )
       break;
-
-    echo( "%d ", vnum );
    
     if( vnum < 0 || vnum >= MAX_OBJ_INDEX ) 
-      panic( "Load_objects: vnum out of range." );
+      panic( "Load_objects: vnum out of range.\n\rObj VNUM attempted: %d", vnum );
 
     if( obj_index_list[vnum] ) 
       panic( "Load_objects: vnum %d duplicated.", vnum );

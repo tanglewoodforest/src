@@ -267,6 +267,8 @@ public:
   int               distance;	// char?
   int                   size;	// unsigned char?
   const char*           name;
+  bool              approved;
+  char*             approver;
 
   Room_Data( area_data *, int );
   virtual ~Room_Data( );

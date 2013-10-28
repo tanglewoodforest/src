@@ -54,6 +54,7 @@ all: $(O_FILES)
 	$(CC) $(C_FLAGS) -o tanglewood $(DIR)/*.o $(L_FLAGS)
 	rm -f daemon         
 	$(CC) $(C_FLAGS) -o daemon daemon.cc $(L_FLAGS)
+	rm -f OBJ/*.o
 
 
 separate: $(Q_FILES)

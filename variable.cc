@@ -294,8 +294,8 @@ static const command_ident command_list [] =
   { "dedit",       do_dedit      }, 
   { "dflag",       do_dflag      }, 
   { "dset",        do_dset       },  
-  { "dstat",       do_dstat      }, 
-  { "rbug",        do_rbug       },  
+  { "dstat",       do_dstat      },
+  { "rbug",        do_rbug       }, 
   { "rdesc",       do_rdesc      }, 
   { "redit",       do_redit      }, 
   { "religion",    do_religion   },
@@ -397,6 +397,7 @@ static const command_ident command_list [] =
   { "wizlock",     do_wizlock    },
   { "write",       do_write      },
   { "dump",        do_dump       },
+  { "rapprove",    do_rapprove   },
   { "",            0             }
 };
 
